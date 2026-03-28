@@ -1,4 +1,4 @@
-/* Base Styling */
+/* --- Base --- */
 body {
     background-color: #0d0d0d;
     color: #f2f2f2;
@@ -6,71 +6,35 @@ body {
     padding: 0;
     overflow-x: hidden;
     font-family: 'Alice', serif;
+    overscroll-behavior: none;
 }
 
+body.undangan-tertutup { overflow: hidden; height: 100svh; }
+body.undangan-terbuka { overflow-y: auto; }
+
+/* --- Hero --- */
 .hero-jawa {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    height: 100svh;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* KUNCI: Gunakan background langsung di sini agar tidak blank */
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                 url('https://res.cloudinary.com/dir7zfoqj/image/upload/v1774686249/Pernikahan_tradisional_Indonesia_dalam_hitam_putih_bs2x32.webp');
     background-size: cover;
-    background-position: center top; /* Memastikan bagian kepala/muka tidak terpotong atasnya */
-    background-repeat: no-repeat;
-    background-attachment: scroll; /* Scroll lebih aman untuk mobile agar tidak blank */
-}
-
-/* Slot Ornamen Wayang (Dibuat lebih kecil agar tidak menutupi muka) */
-.wayang-ornament {
-    position: absolute;
-    bottom: 0;
-    width: 120px; /* Ukuran statis untuk mobile agar aman */
-    height: 200px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    opacity: 0.15;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.left-wayang {
-    left: 0;
-    background-image: url(''); /* Link Wayang 1 */
-}
-
-.right-wayang {
-    right: 0;
-    background-image: url(''); /* Link Wayang 2 */
-    transform: scaleX(-1);
-}
-
-/* Konten Utama */
-.hero-content {
-    position: relative;
+    background-position: center top;
     z-index: 10;
-    width: 100%;
-    padding: 20px;
-    text-align: center;
+    transition: opacity 1s ease;
 }
 
-.the-wedding-of {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    letter-spacing: 4px;
-    margin-bottom: 5px;
-    color: #d4af37;
-}
+.hero-jawa.fade-out { opacity: 0; pointer-events: none; }
 
 .couple-names {
     font-family: 'Pinyon Script', cursive;
     font-size: clamp(3rem, 12vw, 5.5rem);
-    margin-bottom: 15px;
-    line-height: 1.2;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+    color: #d4af37;
+    text-shadow: 3px 3px 15px rgba(0,0,0,1);
 }
 
 .gold-gradient {
@@ -79,70 +43,168 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-.invite-intro {
-    font-size: 0.9rem;
-    max-width: 300px;
-    margin: 0 auto 25px;
-    line-height: 1.4;
-    text-shadow: 1px 1px 5px rgba(0,0,0,1);
-}
-
-/* Area Tamu */
-.recipient-label {
-    font-size: 0.85rem;
-    margin-bottom: 10px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,1);
-}
-
 .name-box-jawa {
-    background: rgba(0, 0, 0, 0.6); /* Gelapkan box agar nama terbaca di atas muka */
+    background: rgba(0, 0, 0, 0.75);
     border-top: 1px solid #d4af37;
     border-bottom: 1px solid #d4af37;
     padding: 20px 10px;
-    width: 85%;
+    margin: 20px auto;
     max-width: 400px;
-    margin: 0 auto 10px;
 }
 
-.display-name {
-    font-family: 'Alice', serif;
-    font-size: 1.8rem;
-    color: #d4af37;
-    margin: 0;
-}
-
-.disclaimer-text {
-    font-size: 0.65rem;
-    font-style: italic;
-    opacity: 0.8;
-    text-shadow: 1px 1px 2px rgba(0,0,0,1);
-}
-
-/* Button */
 .btn-gold-jawa {
-    font-family: 'Cinzel', serif;
-    background: rgba(0,0,0,0.5);
-    color: #d4af37;
     border: 1px solid #d4af37;
+    color: #d4af37;
+    background: transparent;
     padding: 12px 30px;
-    font-size: 0.75rem;
     letter-spacing: 2px;
     text-transform: uppercase;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 20px;
 }
 
-/* Responsive khusus Handphone */
+/* --- Video Section --- */
+.opening-video {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100svh;
+    z-index: 1000;
+    background: #000;
+    transition: opacity 1s ease, visibility 1s;
+}
+
+/* Kunci agar video hilang setelah selesai */
+.opening-video.hide-video {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.opening-video video { width: 100%; height: 100%; object-fit: cover; }
+
+.opening-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3);
+}
+
+/* --- Ayat Section --- */
+.section-ayat {
+    width: 100%;
+    min-height: 100svh;
+    background-color: #0d0d0d;
+    display: flex;
+    align-items: center;
+    padding: 80px 20px;
+}
+
+.ayat-arab {
+    font-size: clamp(1.6rem, 7vw, 2.5rem);
+    color: #d4af37;
+    line-height: 2.2;
+    margin-bottom: 30px;
+}
+
+.ayat-latin { font-style: italic; opacity: 0.9; line-height: 1.8; }
+
+.wayang-ornament {
+    position: absolute; bottom: 0; width: 100px; height: 160px;
+    background-size: contain; opacity: 0.15;
+}
+.left-wayang { left: 0; background-image: url(''); }
+.right-wayang { right: 0; background-image: url(''); transform: scaleX(-1); }
+
+/* --- SECTION MEMPELAI --- */
+.section-mempelai {
+    padding: 100px 20px;
+    background-color: #0d0d0d;
+    color: #f2f2f2;
+}
+
+.title-mempelai {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+}
+
+.sub-title-mempelai {
+    font-size: 0.9rem;
+    font-style: italic;
+    opacity: 0.8;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Bingkai Foto Bulat atau Kotak Klasik */
+.frame-container {
+    width: 250px;
+    height: 350px; /* Portrait klasik */
+    margin-bottom: 25px;
+    position: relative;
+    padding: 10px;
+}
+
+.photo-frame {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #d4af37;
+    border-radius: 150px 150px 0 0; /* Bentuk kubah/dome klasik */
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(40%); /* Efek agak klasik */
+    transition: 0.5s;
+}
+
+.photo-frame:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+/* Tipografi Nama */
+.name-mempelai {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 2.8rem;
+    color: #d4af37;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.parent-name {
+    font-family: 'Alice', serif;
+    font-size: 0.85rem;
+    color: #bf953f;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.parent-detail {
+    font-size: 1rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.ampersand {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 4rem;
+    color: #d4af37;
+    opacity: 0.5;
+}
+
+/* Responsive Mobile */
 @media (max-width: 480px) {
-    .hero-jawa {
-        /* KUNCI: background-position 50% memastikan tengah gambar tetap jadi patokan */
-        background-position: 50% 20%; 
+    .frame-container {
+        width: 200px;
+        height: 280px;
     }
-    .couple-names {
-        font-size: 3.2rem;
-    }
-    .name-box-jawa {
-        width: 90%;
+    .name-mempelai {
+        font-size: 2.2rem;
     }
 }
