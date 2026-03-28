@@ -1,7 +1,7 @@
-/* Base Styling: Hitam & Emas Jawa */
+/* Base Styling */
 body {
-    background-color: #080808;
-    color: #e2d9c2;
+    background-color: #0d0d0d;
+    color: #f2f2f2;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -11,67 +11,66 @@ body {
 .hero-jawa {
     position: relative;
     width: 100%;
-    /* Menggunakan min-vh agar fleksibel jika konten lebih panjang dari layar */
     min-height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                url('https://res.cloudinary.com/dir7zfoqj/image/upload/v1774686249/Pernikahan_tradisional_Indonesia_dalam_hitam_putih_bs2x32.webp'); 
-    background-size: cover;
-    background-position: center;
-    background-attachment: scroll; /* Diubah ke scroll untuk mobile agar tidak berat/buggy */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 60px 0; /* Memberi ruang agar konten tidak mepet atas/bawah di layar pendek */
+    /* KUNCI: Gunakan background langsung di sini agar tidak blank */
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url('https://res.cloudinary.com/dir7zfoqj/image/upload/v1774686249/Pernikahan_tradisional_Indonesia_dalam_hitam_putih_bs2x32.webp');
+    background-size: cover;
+    background-position: center top; /* Memastikan bagian kepala/muka tidak terpotong atasnya */
+    background-repeat: no-repeat;
+    background-attachment: scroll; /* Scroll lebih aman untuk mobile agar tidak blank */
 }
 
-/* Slot Ornamen Wayang/Gunungan */
+/* Slot Ornamen Wayang (Dibuat lebih kecil agar tidak menutupi muka) */
 .wayang-ornament {
     position: absolute;
     bottom: 0;
-    width: 30vw; /* Menggunakan unit VW agar proporsional dengan lebar layar */
-    max-width: 400px;
-    height: 60vh;
+    width: 120px; /* Ukuran statis untuk mobile agar aman */
+    height: 200px;
     background-size: contain;
     background-repeat: no-repeat;
-    opacity: 0.2;
+    opacity: 0.15;
     z-index: 1;
     pointer-events: none;
 }
 
 .left-wayang {
-    left: -5%;
-    background-image: url(''); 
+    left: 0;
+    background-image: url(''); /* Link Wayang 1 */
 }
 
 .right-wayang {
-    right: -5%;
-    background-image: url(''); 
+    right: 0;
+    background-image: url(''); /* Link Wayang 2 */
     transform: scaleX(-1);
 }
 
-/* Tipografi */
+/* Konten Utama */
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 10;
     width: 100%;
-    padding: 0 15px;
+    padding: 20px;
+    text-align: center;
 }
 
 .the-wedding-of {
     font-family: 'Cinzel', serif;
-    font-size: clamp(0.65rem, 2vw, 0.8rem);
+    font-size: 0.75rem;
     letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    color: #d4af37;
 }
 
 .couple-names {
     font-family: 'Pinyon Script', cursive;
-    /* Font size lebih dinamis untuk layar kecil */
-    font-size: clamp(2.8rem, 12vw, 6.5rem);
-    font-weight: 400;
+    font-size: clamp(3rem, 12vw, 5.5rem);
     margin-bottom: 15px;
     line-height: 1.2;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
 }
 
 .gold-gradient {
@@ -80,96 +79,70 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-.gold-text {
-    color: #d4af37;
-}
-
 .invite-intro {
-    font-size: clamp(0.85rem, 3vw, 1.05rem);
-    max-width: 90%;
-    margin: 0 auto 30px;
-    line-height: 1.5;
-    opacity: 0.9;
+    font-size: 0.9rem;
+    max-width: 300px;
+    margin: 0 auto 25px;
+    line-height: 1.4;
+    text-shadow: 1px 1px 5px rgba(0,0,0,1);
 }
 
-/* Guest Area */
-.guest-area {
-    width: 100%;
-    margin-top: 20px;
-}
-
+/* Area Tamu */
 .recipient-label {
-    font-size: clamp(0.8rem, 2.5vw, 0.95rem);
-    margin-bottom: 15px;
-    letter-spacing: 1px;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,1);
 }
 
-/* Name Box */
 .name-box-jawa {
-    background: rgba(212, 175, 55, 0.04);
-    backdrop-filter: blur(4px);
-    border-top: 1px solid rgba(179, 135, 40, 0.6);
-    border-bottom: 1px solid rgba(179, 135, 40, 0.6);
+    background: rgba(0, 0, 0, 0.6); /* Gelapkan box agar nama terbaca di atas muka */
+    border-top: 1px solid #d4af37;
+    border-bottom: 1px solid #d4af37;
     padding: 20px 10px;
-    max-width: 450px;
     width: 85%;
-    margin: 0 auto;
-    position: relative;
+    max-width: 400px;
+    margin: 0 auto 10px;
 }
 
 .display-name {
     font-family: 'Alice', serif;
-    font-size: clamp(1.5rem, 6vw, 2.5rem);
-    font-weight: 400;
-    letter-spacing: 1px;
+    font-size: 1.8rem;
+    color: #d4af37;
+    margin: 0;
 }
 
 .disclaimer-text {
-    font-size: clamp(0.65rem, 2vw, 0.75rem);
+    font-size: 0.65rem;
     font-style: italic;
-    opacity: 0.6;
-    margin-top: 15px;
-    padding: 0 10px;
+    opacity: 0.8;
+    text-shadow: 1px 1px 2px rgba(0,0,0,1);
 }
 
 /* Button */
 .btn-gold-jawa {
     font-family: 'Cinzel', serif;
-    background-color: transparent;
+    background: rgba(0,0,0,0.5);
     color: #d4af37;
     border: 1px solid #d4af37;
-    padding: clamp(10px, 3vw, 14px) clamp(25px, 8vw, 45px);
-    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    padding: 12px 30px;
+    font-size: 0.75rem;
     letter-spacing: 2px;
-    border-radius: 0;
-    transition: 0.5s ease-in-out;
     text-transform: uppercase;
-    margin-top: 10px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
 }
 
-/* Media Query Khusus Handphone Sangat Kecil (Layar < 360px) */
-@media (max-width: 360px) {
-    .couple-names { font-size: 2.5rem; }
-    .name-box-jawa { width: 90%; padding: 15px 5px; }
-    .wayang-ornament { width: 40vw; height: 40vh; opacity: 0.1; }
-}
-
-/* Perbaikan Background Fixed di Mobile */
-@media (max-width: 1024px) {
+/* Responsive khusus Handphone */
+@media (max-width: 480px) {
     .hero-jawa {
-        background-attachment: scroll; /* Mengatasi goyang/hitam di browser mobile */
+        /* KUNCI: background-position 50% memastikan tengah gambar tetap jadi patokan */
+        background-position: 50% 20%; 
     }
-    .wayang-ornament {
-        opacity: 0.15; /* Lebih samar di mobile agar teks tidak terganggu */
+    .couple-names {
+        font-size: 3.2rem;
     }
-}
-
-/* Animasi */
-.fade-in {
-    animation: fadeInUp 2s ease-out forwards;
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    .name-box-jawa {
+        width: 90%;
+    }
 }
