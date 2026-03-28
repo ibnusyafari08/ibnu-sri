@@ -4,52 +4,96 @@ document.addEventListener("DOMContentLoaded", function () {
     const opening = document.getElementById('opening-section');
     const video = document.getElementById('v-opening');
     const ayatSection = document.getElementById('ayat-section');
+    const mempelaiSection = document.getElementById('mempelai-section');
+    const mainContent = document.getElementById('main-content');
+    
+    // Elemen tambahan untuk animasi tombol
+    const btnText = document.getElementById('btn-text');
 
-    // Ambil Nama Tamu dari URL
+    // 1. Logika Nama Tamu
     const urlParams = new URLSearchParams(window.location.search);
     const namaTamu = urlParams.get('to');
     if (namaTamu) {
-        document.getElementById('guest-name').innerText = decodeURIComponent(namaTamu);
+        const guestElement = document.getElementById('guest-name');
+        if (guestElement) {
+            guestElement.innerText = decodeURIComponent(namaTamu);
+        }
     }
 
+    // 2. Klik Buka Undangan
     if (btnBuka) {
         btnBuka.addEventListener('click', function () {
-            // 1. Hilangkan Hero & Buka Akses Scroll
-            hero.classList.add('fade-out');
-            document.body.classList.remove('undangan-tertutup');
-            document.body.classList.add('undangan-terbuka');
+            // --- TAMBAHAN: Animasi Loading & Ganti Teks ---
+            this.classList.add('loading'); // Memunculkan spinner (dari CSS)
+            if (btnText) btnText.innerText = "Membuka Undangan";
+            this.style.pointerEvents = "none"; // Mencegah klik ganda
 
-            // 2. Siapkan Video & Ayat
-            opening.classList.remove('d-none');
-            ayatSection.classList.remove('d-none');
+            // Beri delay singkat (misal 1 detik) agar animasi loading terlihat oleh user
+            setTimeout(() => {
+                
+                // Munculkan video container
+                if (opening) {
+                    opening.classList.remove('d-none');
+                }
 
-            // 3. Putar Video
-            if (video) {
-                video.currentTime = 0;
-                video.play();
-            }
+                // Jalankan Video dengan handling Autoplay
+                if (video) {
+                    video.muted = false;
+                    video.currentTime = 0;
+                    const playPromise = video.play();
 
-            // Hapus hero setelah 1 detik agar tidak berat
-            setTimeout(() => { hero.style.display = 'none'; }, 1000);
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.log("Autoplay dengan suara diblokir, memutar tanpa suara.");
+                            video.muted = true;
+                            video.play();
+                        });
+                    }
+                }
+
+                // Animasi Hero menghilang
+                if (hero) {
+                    hero.classList.add('fade-out');
+                    setTimeout(() => { 
+                        hero.style.display = 'none'; 
+                    }, 1000);
+                }
+                
+            }, 1000); // Delay 1 detik sebelum transisi dimulai
         });
     }
 
+    // 3. Logika Saat Video Selesai
     if (video) {
         video.addEventListener('ended', function () {
-            // 1. Memudarkan Video fixed
-            opening.classList.add('hide-video');
+            // Munculkan konten utama (Ayat & Mempelai)
+            if (mainContent) mainContent.classList.remove('d-none');
+            if (ayatSection) ayatSection.classList.remove('d-none');
+            if (mempelaiSection) mempelaiSection.classList.remove('d-none');
 
-            // 2. Scroll ke Ayat Quran
-            setTimeout(() => {
-                const targetPos = ayatSection.offsetTop;
-                window.scrollTo({
-                    top: targetPos,
-                    behavior: 'smooth'
-                });
-            }, 100);
+            // Aktifkan scroll pada body
+            document.body.classList.remove('undangan-tertutup');
+            document.body.classList.add('undangan-terbuka');
 
-            // 3. Matikan elemen video sepenuhnya setelah pudar
-            setTimeout(() => { opening.style.display = 'none'; }, 1100);
+            // Beri efek pudar pada video container
+            if (opening) {
+                opening.classList.add('hide-video');
+                
+                // Scroll halus ke arah Ayat
+                setTimeout(() => {
+                    if (ayatSection) {
+                        ayatSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 400);
+
+                // Hapus elemen video sepenuhnya setelah benar-benar pudar
+                setTimeout(() => { 
+                    opening.style.display = 'none'; 
+                }, 1400);
+            }
         });
     }
 });

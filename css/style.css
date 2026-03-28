@@ -4,87 +4,164 @@ body {
     color: #f2f2f2;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-    font-family: 'Alice', serif;
+    overflow-x: hidden; 
+    font-family: 'Montserrat', sans-serif; 
     overscroll-behavior: none;
 }
 
-body.undangan-tertutup { overflow: hidden; height: 100svh; }
-body.undangan-terbuka { overflow-y: auto; }
+/* Memaksa semua elemen teks agar tidak hitam (Bootstrap Override) */
+h1, h2, h3, h4, h5, h6, p, span, div, li {
+    color: #f2f2f2 !important;
+}
 
-/* --- Hero --- */
+/* State awal: Terkunci */
+body.undangan-tertutup { 
+    overflow: hidden; 
+    height: 100svh; 
+}
+
+body.undangan-terbuka {
+    overflow-y: auto;
+}
+
+/* --- Hero Section (COVER) --- */
 .hero-jawa {
     position: relative;
     width: 100%;
-    height: 100svh;
+    min-height: 100svh; 
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
                 url('https://res.cloudinary.com/dir7zfoqj/image/upload/v1774686249/Pernikahan_tradisional_Indonesia_dalam_hitam_putih_bs2x32.webp');
     background-size: cover;
-    background-position: center top;
+    background-position: center center;
     z-index: 10;
-    transition: opacity 1s ease;
+    transition: opacity 0.8s ease-in-out;
 }
 
-.hero-jawa.fade-out { opacity: 0; pointer-events: none; }
+.hero-jawa.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
 
+.the-wedding-of {
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: #d4af37 !important;
+    margin-bottom: 0.5rem;
+}
+
+/* Judul Nama di Hero */
 .couple-names {
-    font-family: 'Pinyon Script', cursive;
-    font-size: clamp(3rem, 12vw, 5.5rem);
-    color: #d4af37;
-    text-shadow: 3px 3px 15px rgba(0,0,0,1);
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(3.5rem, 15vw, 6rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: #d4af37 !important;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-.gold-gradient {
-    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+/* --- UPDATE: Nama Tamu Dibuat Jauh Lebih Turun --- */
+.guest-area {
+    margin-top: 140px; /* Ditambah dari 80px ke 140px agar lebih turun */
+}
+
+.recipient-label {
+    font-family: 'Montserrat', sans-serif;
+    color: #cccccc !important;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
 }
 
 .name-box-jawa {
-    background: rgba(0, 0, 0, 0.75);
-    border-top: 1px solid #d4af37;
-    border-bottom: 1px solid #d4af37;
-    padding: 20px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(212, 175, 55, 0.5);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+    padding: 25px 15px;
     margin: 20px auto;
     max-width: 400px;
 }
 
-.btn-gold-jawa {
-    border: 1px solid #d4af37;
-    color: #d4af37;
-    background: transparent;
-    padding: 12px 30px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+.display-name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.8rem;
+    color: #f2f2f2 !important;
+    margin-bottom: 0;
 }
 
-/* --- Video Section --- */
-.opening-video {
+/* Tombol Buka Undangan */
+.btn-gold-jawa {
+    border: 1px solid #d4af37;
+    color: #f2f2f2 !important;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 10px 25px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 160px;
+    cursor: pointer;
+    margin-top: 20px; /* Memberi jarak dari area nama */
+}
+
+.btn-gold-jawa:hover {
+    background: #d4af37;
+    color: #0d0d0d !important;
+}
+
+/* Animasi Spinner */
+.spinner-btn {
+    display: none;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-top: 2px solid #d4af37;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.btn-gold-jawa.loading .spinner-btn {
+    display: block;
+}
+
+/* --- Opening Video Section --- */
+#opening-section {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100svh;
-    z-index: 1000;
-    background: #000;
-    transition: opacity 1s ease, visibility 1s;
+    background-color: #000;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
 }
 
-/* Kunci agar video hilang setelah selesai */
-.opening-video.hide-video {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.opening-video video { width: 100%; height: 100%; object-fit: cover; }
-
-.opening-overlay {
-    position: absolute;
-    top: 0; left: 0;
+#opening-section video {
     width: 100%; height: 100%;
-    background: rgba(0,0,0,0.3);
+    object-fit: cover;
+}
+
+#opening-section.hide-video {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
 }
 
 /* --- Ayat Section --- */
@@ -94,117 +171,127 @@ body.undangan-terbuka { overflow-y: auto; }
     background-color: #0d0d0d;
     display: flex;
     align-items: center;
-    padding: 80px 20px;
+    padding: 100px 20px;
 }
+
+.ayat-box-premium {
+    background-color: #151515;
+    padding: 60px 30px;
+    position: relative;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.ayat-box-premium::before, .ayat-box-premium::after {
+    content: '';
+    position: absolute;
+    width: 40px; height: 40px;
+    border: 2px solid #d4af37;
+}
+.ayat-box-premium::before { top: 15px; left: 15px; border-right: none; border-bottom: none; }
+.ayat-box-premium::after { bottom: 15px; right: 15px; border-left: none; border-top: none; }
 
 .ayat-arab {
-    font-size: clamp(1.6rem, 7vw, 2.5rem);
-    color: #d4af37;
-    line-height: 2.2;
-    margin-bottom: 30px;
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+    color: #d4af37 !important;
+    line-height: 2.5;
+    text-align: center;
 }
 
-.ayat-latin { font-style: italic; opacity: 0.9; line-height: 1.8; }
-
-.wayang-ornament {
-    position: absolute; bottom: 0; width: 100px; height: 160px;
-    background-size: contain; opacity: 0.15;
+.ayat-latin {
+    color: #f2f2f2 !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.8;
+    text-align: center;
+    font-size: 0.95rem;
 }
-.left-wayang { left: 0; background-image: url(''); }
-.right-wayang { right: 0; background-image: url(''); transform: scaleX(-1); }
 
-/* --- SECTION MEMPELAI --- */
+/* --- Mempelai Section --- */
 .section-mempelai {
-    padding: 100px 20px;
+    padding: 100px 0;
     background-color: #0d0d0d;
-    color: #f2f2f2;
 }
 
 .title-mempelai {
-    font-family: 'Cinzel', serif;
-    font-size: 2.5rem;
-    letter-spacing: 5px;
-    margin-bottom: 10px;
-}
-
-.sub-title-mempelai {
-    font-size: 0.9rem;
-    font-style: italic;
-    opacity: 0.8;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-/* Bingkai Foto Bulat atau Kotak Klasik */
-.frame-container {
-    width: 250px;
-    height: 350px; /* Portrait klasik */
-    margin-bottom: 25px;
-    position: relative;
-    padding: 10px;
-}
-
-.photo-frame {
-    width: 100%;
-    height: 100%;
-    border: 2px solid #d4af37;
-    border-radius: 150px 150px 0 0; /* Bentuk kubah/dome klasik */
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.photo-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(40%); /* Efek agak klasik */
-    transition: 0.5s;
-}
-
-.photo-frame:hover img {
-    filter: grayscale(0%);
-    transform: scale(1.05);
-}
-
-/* Tipografi Nama */
-.name-mempelai {
-    font-family: 'Pinyon Script', cursive;
-    font-size: 2.8rem;
-    color: #d4af37;
-    margin-top: 15px;
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    color: #d4af37 !important;
+    text-align: center;
     margin-bottom: 5px;
 }
 
-.parent-name {
-    font-family: 'Alice', serif;
-    font-size: 0.85rem;
-    color: #bf953f;
-    margin-bottom: 0;
+.sub-title-mempelai {
+    font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
     letter-spacing: 2px;
+    font-size: 0.8rem;
+    color: #aaaaaa !important;
+    text-align: center;
+    font-weight: 400;
+}
+
+.frame-container {
+    width: 260px; height: 380px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.photo-frame {
+    width: 100%; height: 100%;
+    border-radius: 150px 150px 20px 20px; 
+    border: 2px solid #d4af37;
+    padding: 12px;
+    overflow: hidden;
+}
+
+.photo-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 140px 140px 10px 10px;
+}
+
+.name-mempelai {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3rem;
+    color: #d4af37 !important;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.parent-name {
+    font-family: 'Montserrat', sans-serif;
+    color: #d4af37 !important;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-top: 10px;
 }
 
 .parent-detail {
-    font-size: 1rem;
-    line-height: 1.5;
-    opacity: 0.9;
+    font-family: 'Montserrat', sans-serif;
+    color: #f2f2f2 !important;
+    line-height: 1.6;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 300;
 }
 
 .ampersand {
-    font-family: 'Pinyon Script', cursive;
-    font-size: 4rem;
-    color: #d4af37;
+    font-family: 'Great Vibes', cursive;
+    font-size: 5rem;
+    color: #d4af37 !important;
+    text-align: center;
+    display: block;
     opacity: 0.5;
+    margin: 20px 0;
 }
 
-/* Responsive Mobile */
-@media (max-width: 480px) {
-    .frame-container {
-        width: 200px;
-        height: 280px;
-    }
-    .name-mempelai {
-        font-size: 2.2rem;
-    }
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .frame-container { width: 220px; height: 320px; }
+    .title-mempelai { font-size: 3.2rem; }
+    .name-mempelai { font-size: 2.5rem; }
+    .guest-area { margin-top: 100px; } /* Sedikit penyesuaian untuk layar kecil */
 }

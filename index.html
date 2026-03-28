@@ -2,100 +2,111 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Pernikahan - Ibnu & Sri</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Wedding of Ibnu & Sri</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Alice&family=Cinzel:wght@400;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="undangan-tertutup"> 
 
     <section id="hero-section" class="hero-jawa">
-        <div class="wayang-ornament left-wayang"></div>
-        <div class="wayang-ornament right-wayang"></div>
-
-        <div class="container d-flex align-items-center justify-content-center min-vh-100">
-            <div class="row w-100 justify-content-center text-center">
-                <div class="col-12 col-md-10 hero-content">
-                    <div class="fade-in">
-                        <p class="the-wedding-of gold-text">The Wedding Of</p>
-                        <h1 class="couple-names gold-gradient">Ibnu & Sri</h1>
-                        <p class="invite-intro">Kami mengundang Anda untuk hadir dan memberikan doa restu pada momen bahagia kami.</p>
-                    </div>
-
-                    <div class="guest-area fade-in">
-                        <p class="recipient-label">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
-                        <div class="name-box-jawa shadow-lg">
-                            <h2 id="guest-name" class="display-name gold-text">Nama Tamu</h2>
-                        </div>
-                        <p class="disclaimer-text">*Mohon maaf apabila ada kesalahan penulisan nama dan gelar</p>
-                    </div>
-
-                    <div class="mt-5 fade-in">
-                        <button id="btn-buka-undangan" class="btn btn-gold-jawa shadow">Buka Undangan</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="opening-section" class="opening-video d-none">
-        <video id="v-opening" muted playsinline preload="auto">
-            <source src="https://res.cloudinary.com/dir7zfoqj/video/upload/v1774689224/opening_rwpqq1.mp4" type="video/mp4">
-        </video>
-        <div class="opening-overlay"></div>
-    </section>
-
-    <section id="ayat-section" class="section-ayat d-none">
         <div class="container text-center">
             <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <p class="ayat-arab">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَهُمْ مَوَدَّةً وَرَحْمَةً</p>
-                    <p class="ayat-latin">
-                        "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."
-                    </p>
-                    <p class="ayat-source">(QS. Ar-Rum: 21)</p>
+                <div class="col-12 col-md-10 fade-in">
+                    <p class="the-wedding-of">The Wedding of</p>
+                    <h1 class="couple-names">Ibnu & Sri</h1>
+                    
+                    <div class="guest-area">
+                        <p class="recipient-label">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+                        <div class="name-box-jawa shadow-lg">
+                            <h2 id="guest-name" class="display-name">Nama Tamu</h2>
+                        </div>
+                        <p class="disclaimer-text">*Mohon maaf apabila ada kesalahan penulisan nama/gelar</p>
+                    </div>
+
+                    <div class="mt-5">
+                        <button id="btn-buka-undangan" class="btn-gold-jawa">
+                            <div class="spinner-btn" id="btn-spinner"></div>
+                            <span id="btn-text">Buka Undangan</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="mempelai-section" class="section-mempelai">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="title-mempelai gold-gradient">Mempelai</h2>
-            <p class="sub-title-mempelai">Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan.</p>
-        </div>
+    <section id="opening-section" class="d-none">
+        <div class="opening-overlay"></div>
+        <video id="v-opening" playsinline preload="auto">
+            <source src="https://res.cloudinary.com/dir7zfoqj/video/upload/v1774689224/opening_rwpqq1.mp4" type="video/mp4">
+        </video>
+    </section>
 
-        <div class="row justify-content-center align-items-center">
-            <div class="col-11 col-md-5 mb-5 mb-md-0 text-center">
-                <div class="frame-container mx-auto">
-                    <div class="photo-frame">
-                        <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1774691347/pria_2_gltnzs.webp" alt="Ibnu">
+    <main id="main-content" class="d-none">
+        
+        <section id="ayat-section" class="section-ayat">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-9 col-lg-7">
+                        <div class="ayat-box-premium">
+                            <div class="ayat-content text-center">
+                                <p class="ayat-arab">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَهُمْ مَوَدَّةً وَرَحْمَةً</p>
+                                <div class="divider-gold-line"></div>
+                                <p class="ayat-latin">
+                                    "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."
+                                </p>
+                                <p class="ayat-source mt-4">(QS. Ar-Rum: 21)</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <h3 class="name-mempelai">Ibnu Syafari S.P.</h3>
-                <p class="parent-name">Putra Kedua dari:</p>
-                <p class="parent-detail">Bapak H. Ony Syafari <br> & Ibu Hj. Winda Andriani</p>
             </div>
+        </section>
 
-            <div class="col-12 col-md-1 text-center my-3 my-md-0 d-none d-md-block">
-                <span class="ampersand">&</span>
-            </div>
+        <section id="mempelai-section" class="section-mempelai">
+            <div class="container">
+                <div class="text-center mb-5 pb-4">
+                    <h2 class="title-mempelai">Mempelai</h2>
+                    <p class="sub-title-mempelai">Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan.</p>
+                </div>
 
-            <div class="col-11 col-md-5 text-center">
-                <div class="frame-container mx-auto">
-                    <div class="photo-frame">
-                        <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1774691137/wanita_1_rteo4h.webp" alt="Sri">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-11 col-md-5 text-center mb-5">
+                        <div class="frame-container mx-auto">
+                            <div class="photo-frame">
+                                <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1774691347/pria_2_gltnzs.webp" alt="Ibnu">
+                            </div>
+                        </div>
+                        <h3 class="name-mempelai">Ibnu Syafari, S.P.</h3>
+                        <p class="parent-name">Putra Kedua dari:</p>
+                        <p class="parent-detail">Bapak H. Ony Syafari <br> & Ibu Hj. Winda Andriani</p>
+                    </div>
+
+                    <div class="col-12 col-md-2 text-center d-none d-md-block">
+                        <span class="ampersand">&</span>
+                    </div>
+
+                    <div class="col-11 col-md-5 text-center mb-5">
+                        <div class="frame-container mx-auto">
+                            <div class="photo-frame">
+                                <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1774691137/wanita_1_rteo4h.webp" alt="Sri">
+                            </div>
+                        </div>
+                        <h3 class="name-mempelai">Sri Wahyuni, S.M.</h3>
+                        <p class="parent-name">Putri Ketiga dari:</p>
+                        <p class="parent-detail">Bapak Rajimin <br> & Ibu Nurhayati</p>
                     </div>
                 </div>
-                <h3 class="name-mempelai">Sri Wahyuni S.M.</h3>
-                <p class="parent-name">Putri Ketiga dari:</p>
-                <p class="parent-detail">Bapak Rajimin <br> & Ibu Nurhayati</p>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
+        
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/script.js"></script>
