@@ -1,0 +1,175 @@
+/* Base Styling: Hitam & Emas Jawa */
+body {
+    background-color: #080808;
+    color: #e2d9c2;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Alice', serif;
+}
+
+.hero-jawa {
+    position: relative;
+    width: 100%;
+    /* Menggunakan min-vh agar fleksibel jika konten lebih panjang dari layar */
+    min-height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url('https://res.cloudinary.com/dir7zfoqj/image/upload/v1774686249/Pernikahan_tradisional_Indonesia_dalam_hitam_putih_bs2x32.webp'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll; /* Diubah ke scroll untuk mobile agar tidak berat/buggy */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0; /* Memberi ruang agar konten tidak mepet atas/bawah di layar pendek */
+}
+
+/* Slot Ornamen Wayang/Gunungan */
+.wayang-ornament {
+    position: absolute;
+    bottom: 0;
+    width: 30vw; /* Menggunakan unit VW agar proporsional dengan lebar layar */
+    max-width: 400px;
+    height: 60vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.2;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.left-wayang {
+    left: -5%;
+    background-image: url(''); 
+}
+
+.right-wayang {
+    right: -5%;
+    background-image: url(''); 
+    transform: scaleX(-1);
+}
+
+/* Tipografi */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.the-wedding-of {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.65rem, 2vw, 0.8rem);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.couple-names {
+    font-family: 'Pinyon Script', cursive;
+    /* Font size lebih dinamis untuk layar kecil */
+    font-size: clamp(2.8rem, 12vw, 6.5rem);
+    font-weight: 400;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.gold-gradient {
+    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gold-text {
+    color: #d4af37;
+}
+
+.invite-intro {
+    font-size: clamp(0.85rem, 3vw, 1.05rem);
+    max-width: 90%;
+    margin: 0 auto 30px;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+/* Guest Area */
+.guest-area {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.recipient-label {
+    font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+/* Name Box */
+.name-box-jawa {
+    background: rgba(212, 175, 55, 0.04);
+    backdrop-filter: blur(4px);
+    border-top: 1px solid rgba(179, 135, 40, 0.6);
+    border-bottom: 1px solid rgba(179, 135, 40, 0.6);
+    padding: 20px 10px;
+    max-width: 450px;
+    width: 85%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.display-name {
+    font-family: 'Alice', serif;
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.disclaimer-text {
+    font-size: clamp(0.65rem, 2vw, 0.75rem);
+    font-style: italic;
+    opacity: 0.6;
+    margin-top: 15px;
+    padding: 0 10px;
+}
+
+/* Button */
+.btn-gold-jawa {
+    font-family: 'Cinzel', serif;
+    background-color: transparent;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: clamp(10px, 3vw, 14px) clamp(25px, 8vw, 45px);
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    letter-spacing: 2px;
+    border-radius: 0;
+    transition: 0.5s ease-in-out;
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+/* Media Query Khusus Handphone Sangat Kecil (Layar < 360px) */
+@media (max-width: 360px) {
+    .couple-names { font-size: 2.5rem; }
+    .name-box-jawa { width: 90%; padding: 15px 5px; }
+    .wayang-ornament { width: 40vw; height: 40vh; opacity: 0.1; }
+}
+
+/* Perbaikan Background Fixed di Mobile */
+@media (max-width: 1024px) {
+    .hero-jawa {
+        background-attachment: scroll; /* Mengatasi goyang/hitam di browser mobile */
+    }
+    .wayang-ornament {
+        opacity: 0.15; /* Lebih samar di mobile agar teks tidak terganggu */
+    }
+}
+
+/* Animasi */
+.fade-in {
+    animation: fadeInUp 2s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
