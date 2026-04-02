@@ -6,6 +6,9 @@
     <title>The Wedding of Ibnu & Sri</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -228,7 +231,7 @@ display=swap" rel="stylesheet">
         <div class="row story-item g-0 text-center" data-aos="fade-right">
             <div class="col-foto">
                 <div class="story-frame">
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=400&h=400&fit=crop" class="story-img">
+                    <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1775159713/Desain_tanpa_judul_page-0001_1_qaqgee.webp" class="story-img">
                 </div>
             </div>
             <div class="col-tabel">
@@ -250,7 +253,7 @@ display=swap" rel="stylesheet">
         <div class="row story-item flex-row-reverse g-0 text-center" data-aos="fade-left">
             <div class="col-foto">
                 <div class="story-frame">
-                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=400&h=400&fit=crop" class="story-img">
+                    <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1775159713/Desain_tanpa_judul_page-0001_1_qaqgee.webp" class="story-img">
                 </div>
             </div>
             <div class="col-tabel">
@@ -272,7 +275,7 @@ display=swap" rel="stylesheet">
         <div class="row story-item g-0 text-center" data-aos="fade-right">
             <div class="col-foto">
                 <div class="story-frame">
-                    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=400&h=400&fit=crop" class="story-img">
+                    <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1775159713/Desain_tanpa_judul_page-0001_1_qaqgee.webp" class="story-img">
                 </div>
             </div>
             <div class="col-tabel">
@@ -294,7 +297,7 @@ display=swap" rel="stylesheet">
         <div class="row story-item flex-row-reverse g-0 text-center" data-aos="fade-left">
             <div class="col-foto">
                 <div class="story-frame">
-                    <img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=400&h=400&fit=crop" class="story-img">
+                    <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1775159713/Desain_tanpa_judul_page-0001_1_qaqgee.webp" class="story-img">
                 </div>
             </div>
             <div class="col-tabel">
@@ -316,7 +319,7 @@ display=swap" rel="stylesheet">
         <div class="row story-item g-0 text-center" data-aos="fade-right">
             <div class="col-foto">
                 <div class="story-frame">
-                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=400&h=400&fit=crop" class="story-img">
+                    <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1775159713/Desain_tanpa_judul_page-0001_1_qaqgee.webp" class="story-img">
                 </div>
             </div>
             <div class="col-tabel">
@@ -493,6 +496,212 @@ display=swap" rel="stylesheet">
             </div>
         </div>
     </div>
+</div>
+
+<section id="gifts" class="py-5" style="background-color: #0b0b0b;">
+    <div class="container text-center">
+        <div data-aos="fade-up">
+            <p class="wedding-subtitle text-uppercase mb-1">Gifts</p>
+            <h2 class="section-title">Wedding Gift</h2>
+            <div class="divider-gold mx-auto"></div>
+            <p class="mt-3 text-white-50 mx-auto px-3" style="max-width: 650px;">
+                Doa restu dan kehadiran Anda merupakan kebahagiaan yang sangat berarti bagi kami. <br>
+                Namun jika Anda berkenan memberikan sebuah hadiah sebagai tanda kasih Anda, kami menerima dengan sepenuh hati.
+            </p>
+            
+            <div class="mt-4">
+                <button class="btn btn-gold px-4 py-3" id="btnGiftTrigger" onclick="toggleGifts()">
+                    <i class="fas fa-gift me-2"></i> Klik Untuk Memberi Hadiah
+                </button>
+            </div>
+        </div>
+
+        <div id="giftContainer" class="mt-5 d-none">
+            <div class="row justify-content-center g-4">
+                
+                <div class="col-md-10">
+                    <div class="wish-item text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-box-open text-gold fa-3x"></i>
+                        </div>
+                        <h5 class="text-gold fw-bold">Kirim Kado / Hadiah</h5>
+                        <p class="text-white-50 small mb-2">Alamat Lengkap:</p>
+                        <p class="text-white px-md-5" id="alamatKado">Jl. SDN 04, Gg. Asmadibusri No. 79, RT007/RW008. Dusun Mekar Lestari, Desa Harapan, Kec. Pemangkat, Kab. Sambas, Kalimantan Barat. Kode Pos 79455</p>
+                        <button class="btn-reply-link" onclick="copyValue('alamatKado')">Salin Alamat</button>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="atm-card">
+                        <div class="atm-inner">
+                            <div class="d-flex justify-content-between align-items-start mb-auto">
+                                <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1770216217/chip_zmwa4e.png" class="atm-chip" alt="chip">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/1200px-Bank_Central_Asia.svg.png" class="atm-bank-logo" alt="BCA">
+                            </div>
+                            <div class="atm-body mt-4 text-start">
+                                <div class="atm-number-label">Account Number</div>
+                                <div class="atm-number" id="norek1">8171 5115 00</div>
+                                <div class="d-flex justify-content-between align-items-end mt-2">
+                                    <div class="atm-holder">
+                                        <span class="atm-holder-label">A/N</span>
+                                        <div class="atm-holder-name">SRI WAHYUNI</div>
+                                    </div>
+                                    <button class="btn-copy-atm" onclick="copyValue('norek1')">
+                                        <i class="far fa-copy"></i> SALIN
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="atm-card">
+                        <div class="atm-inner">
+                            <div class="d-flex justify-content-between align-items-start mb-auto">
+                                <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1770216217/chip_zmwa4e.png" class="atm-chip" alt="chip">
+                                <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1775156665/BRI_2020_shj3hc.webp" class="atm-bank-logo" alt="Mandiri">
+                            </div>
+                            <div class="atm-body mt-4 text-start">
+                                <div class="atm-number-label">Account Number</div>
+                                <div class="atm-number" id="norek2">00190 11965 55502</div>
+                                <div class="d-flex justify-content-between align-items-end mt-2">
+                                    <div class="atm-holder">
+                                        <span class="atm-holder-label">A/N</span>
+                                        <div class="atm-holder-name">IBNU SYAFARI</div>
+                                    </div>
+                                    <button class="btn-copy-atm" onclick="copyValue('norek2')">
+                                        <i class="far fa-copy"></i> SALIN
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="wish-item text-center">
+                        <h5 class="fw-bold text-info">DANA</h5>
+                        <div class="qr-wrapper my-3">
+                            <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1770216216/QR_Dana_Sri_jhwh3d.jpg" class="qr-img">
+                        </div>
+                        <p class="mb-1 text-white" id="noDana1">0858-2249-0479</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button class="btn-reply-link" onclick="copyValue('noDana1')">Salin Nomor</button>
+                            <button class="btn-reply-link text-white" onclick="downloadQR('https://res.cloudinary.com/dir7zfoqj/image/upload/v1770216216/QR_Dana_Sri_jhwh3d.jpg', 'QR_DANA_SRI.png')">
+                                <i class="fas fa-download me-1"></i> Unduh QR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="wish-item text-center">
+                        <h5 class="fw-bold text-info">DANA</h5>
+                        <div class="qr-wrapper my-3">
+                            <img src="https://res.cloudinary.com/dir7zfoqj/image/upload/v1770216215/QR_dana_ibnu_vekgnm.jpg" class="qr-img">
+                        </div>
+                        <p class="mb-1 text-white" id="noDana2">0838-3892-0303</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button class="btn-reply-link" onclick="copyValue('noDana2')">Salin Nomor</button>
+                            <button class="btn-reply-link text-white" onclick="downloadQR('https://res.cloudinary.com/dir7zfoqj/image/upload/v1770216215/QR_dana_ibnu_vekgnm.jpg', 'QR_DANA_IBNU.png')">
+                                <i class="fas fa-download me-1"></i> Unduh QR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="mt-4 pb-5">
+                <button class="btn btn-outline-light btn-sm px-4" onclick="toggleGifts()">
+                    <i class="fas fa-times me-2"></i> Tutup Menu Hadiah
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer-luxury py-5 mt-5">
+    <div class="container text-center">
+        
+        <div class="row justify-content-center mb-5" data-aos="fade-up">
+            <div class="col-md-9 col-lg-7">
+                <div class="footer-quote-wrapper">
+                    <div class="line-thin mb-4"></div>
+                    <p class="footer-text-main px-3">
+                        Merupakan suatu kehormatan serta kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan menghadiri acara resepsi pernikahan kami untuk memberikan doa restu kepada kami.
+                    </p>
+                    <div class="line-thin mt-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5" data-aos="fade-up">
+            <p class="luxury-label mb-4">KAMI YANG BERBAHAGIA</p>
+            
+            <div class="couple-footer-item">
+                <h3 class="name-luxury">Sri Wahyuni</h3>
+                <p class="family-luxury">Keluarga Besar Bpk. Rajimin<br> & Ibu Nurhayati</p>
+            </div>
+
+            <div class="ampersand-divider my-4">
+                <span>&</span>
+            </div>
+
+            <div class="couple-footer-item">
+                <h3 class="name-luxury">Ibnu Syafari</h3>
+                <p class="family-luxury">Keluarga Besar Bpk. H. Ony Syafari<br> & Ibu Hj. Winda Andriani</p>
+            </div>
+        </div>
+
+        <div class="mb-5" data-aos="fade-up">
+            <p class="luxury-label-small mb-3">TURUT MENGUNDANG</p>
+            <div class="invited-list">
+                <span>Kepala Desa Mekar Lestari</span>
+                <span class="dot-separator">•</span>
+                <span>Kepala Dusun</span>
+                <span class="dot-separator">•</span>
+                <span>Seluruh Ketua RT/RW</span>
+                <span class="dot-separator">•</span>
+                <span>Segenap Kerabat & Keluarga Besar</span>
+            </div>
+        </div>
+
+        <div class="designer-footer mt-5 pt-4" data-aos="fade-in">
+            <div class="designer-content">
+                <p class="made-with"> &copy; 2026. Made with <i class="bi bi-heart-fill text-danger"></i> by 
+                            <a href="#" class="text-gold text-decoration-none fw-bold">Ibnu Syafari</p>
+                
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                    <a href="https://www.instagram.com/rfys.ibnu?igsh=NjFqM3Q5aXZ2eTJi&utm_source=qr" target="_blank" rel="noopener noreferrer" class="social-luxury-link">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/6285752068950?text=..." target="_blank" rel="noopener noreferrer" class="social-luxury-link">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+<audio id="weddingMusic" loop>
+    <source src="https://res.cloudinary.com/dir7zfoqj/video/upload/v1770216270/song_wiffmb.mp4" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<div id="music-control" class="music-control-hidden">
+    <button id="music-btn" onclick="toggleMusic()" class="play-state">
+        <div class="music-visualizer">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <i id="music-icon-muted" class="bi bi-volume-mute-fill d-none"></i>
+    </button>
 </div>
         
     </main>

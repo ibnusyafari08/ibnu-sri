@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnText = document.getElementById('btn-text');
     const btnSpinner = document.getElementById('btn-spinner');
 
+    // Variabel Musik (Updated untuk desain baru)
+    const music = document.getElementById('weddingMusic');
+    const musicControl = document.getElementById('music-control');
+    const musicBtn = document.getElementById('music-btn');
+
     // Variabel RSVP & Ucapan
     const rsvpForm = document.getElementById('rsvpForm');
     const inputNama = document.getElementById('inputNama');
@@ -44,6 +49,30 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 if (opening) opening.classList.remove('d-none');
                 if (mainContent) mainContent.classList.remove('d-none');
+
+                // --- LOGIKA MUSIK REVISI ---
+                if (music) {
+                    music.play().then(() => {
+                        // Jika sukses play, tambahkan class animasi play
+                        if (musicBtn) {
+                            musicBtn.classList.remove('paused-state');
+                            musicBtn.classList.add('play-state');
+                        }
+                    }).catch(err => {
+                        console.log("Autoplay dicegah browser.");
+                        // Jika gagal play otomatis, set ke state pause
+                        if (musicBtn) {
+                            musicBtn.classList.add('paused-state');
+                            musicBtn.classList.remove('play-state');
+                        }
+                    });
+
+                    if (musicControl) {
+                        musicControl.classList.remove('music-control-hidden');
+                        musicControl.classList.add('music-control-show');
+                    }
+                }
+                // ---------------------------
 
                 if (video) {
                     video.muted = false;
@@ -148,7 +177,6 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`${SCRIPT_URL}?action=read`)
             .then(res => res.json())
             .then(data => {
-                // Simpan data asli dan balik urutannya (terbaru di atas)
                 allWishes = [...data].reverse();
                 displayWishes(currentPage);
             })
@@ -170,7 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         paginatedItems.forEach((item, displayIdx) => {
-            // RUMUS: Menghitung index baris asli di Spreadsheet untuk reply
             const globalIdx = startIndex + displayIdx;
             const originalIdx = (allWishes.length - 1) - globalIdx;
 
@@ -216,7 +243,6 @@ document.addEventListener("DOMContentLoaded", function () {
     window.changePage = function(page) {
         currentPage = page;
         displayWishes(page);
-        // Scroll halus kembali ke bagian atas list ucapan
         wishesContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
@@ -240,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (namaTamu) inputNama.value = decodeURIComponent(namaTamu);
                     btn.disabled = false;
                     if(btnTextRsvp) btnTextRsvp.innerText = "Kirim Ucapan";
-                    currentPage = 1; // Kembali ke hal 1 untuk melihat ucapan baru
+                    currentPage = 1; 
                     loadWishes(); 
                 })
                 .catch(error => {
@@ -293,4 +319,80 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-}); // Penutup DOMContentLoaded
+    // === I. LOGIKA SECTION GIFTS ===
+    window.toggleGifts = function() {
+        const container = document.getElementById('giftContainer');
+        const triggerBtn = document.getElementById('btnGiftTrigger');
+        
+        if (container.classList.contains('d-none')) {
+            container.classList.remove('d-none');
+            container.classList.add('animate__fadeInUp');
+            triggerBtn.innerHTML = '<i class="fas fa-times me-2"></i> Tutup Menu Hadiah';
+            triggerBtn.classList.replace('btn-gold', 'btn-outline-light');
+            
+            setTimeout(() => {
+                container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        } else {
+            container.classList.add('d-none');
+            triggerBtn.innerHTML = '<i class="fas fa-gift me-2"></i> Klik Untuk Memberi Hadiah';
+            triggerBtn.classList.replace('btn-outline-light', 'btn-gold');
+            
+            document.getElementById('gifts').scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    window.copyValue = function(elementId) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        let textToCopy = element.innerText || element.textContent;
+        
+        if (elementId.includes('norek') || elementId.includes('noDana')) {
+            textToCopy = textToCopy.replace(/[^0-9]/g, '');
+        }
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert("Berhasil menyalin: " + textToCopy);
+        }).catch(err => {
+            console.error('Gagal menyalin!', err);
+        });
+    };
+
+    // === J. LOGIKA DOWNLOAD QRIS (Mencegah Refresh) ===
+    window.downloadQR = function(url, filename) {
+        fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(blobUrl);
+                document.body.removeChild(a);
+            })
+            .catch(() => {
+                window.open(url, '_blank');
+            });
+    };
+
+    // === K. LOGIKA MUSIC TOGGLE (REVISI LUXURY) ===
+    window.toggleMusic = function() {
+        if (!music || !musicBtn) return;
+
+        if (music.paused) {
+            music.play();
+            // Gunakan class state untuk visualizer
+            musicBtn.classList.remove('paused-state');
+            musicBtn.classList.add('play-state');
+        } else {
+            music.pause();
+            // Gunakan class state untuk visualizer
+            musicBtn.classList.remove('play-state');
+            musicBtn.classList.add('paused-state');
+        }
+    };
+});

@@ -33,7 +33,7 @@ body.undangan-terbuka {
     align-items: center;
     justify-content: center;
     background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                url('https://res.cloudinary.com/dir7zfoqj/image/upload/v1774686249/Pernikahan_tradisional_Indonesia_dalam_hitam_putih_bs2x32.webp');
+                url('https://res.cloudinary.com/dir7zfoqj/image/upload/v1775159713/Desain_tanpa_judul_page-0001_1_qaqgee.webp');
     background-size: cover;
     background-position: center center;
     z-index: 10;
@@ -1335,3 +1335,380 @@ body.undangan-terbuka {
     .btn-page { width: 35px; height: 35px; }
     .reply-item { margin-left: 15px; } /* Menyesuaikan indent di layar kecil */
 }
+
+/* ========================================= */
+/* GIFTS            */
+/* ========================================= */
+/* === ATM CARD REALISTIC STYLE === */
+.atm-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 18px;
+    height: 230px; /* Sedikit lebih tinggi untuk proporsi asli */
+    position: relative;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    color: #fff;
+    text-align: left; /* Rata Kiri sesuai standar kartu */
+}
+
+.atm-inner {
+    padding: 25px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.atm-chip {
+    width: 48px;
+    height: auto;
+    filter: saturate(1.2) brightness(1.1);
+}
+
+.atm-bank-logo {
+    height: 22px;
+    max-width: 90px;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* Logo Bank jadi Putih */
+}
+
+/* Tipografi Nomor Rekening */
+.atm-number-label {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+.atm-number {
+    font-family: 'OCR A Std', 'Courier New', Courier, monospace; /* Font khas ATM */
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    color: #f1f1f1;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    margin-bottom: 10px;
+}
+
+/* Bagian Nama Pemilik */
+.atm-holder-label {
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    display: block;
+}
+
+.atm-holder-name {
+    color: #d4af37; /* Nama Emas */
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.btn-copy-atm {
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.btn-copy-atm:hover {
+    background: #d4af37;
+    color: #000;
+}
+
+.atm-card:hover {
+    transform: scale(1.02);
+    border-color: #d4af37;
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+}
+
+/* DANA QR Wrapper */
+.qr-wrapper {
+    background: white;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 12px;
+    border: 3px solid #d4af37; /* Border emas senada */
+}
+
+.qr-img {
+    width: 135px;
+    height: 135px;
+}
+
+.text-gold { color: #d4af37 !important; }
+
+/* Animasi Fade */
+.animate__fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translate3d(0, 30px, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* ========================================= */
+/* FOOTER            */
+/* ========================================= */
+
+/* --- LUXURY FOOTER STYLES --- */
+.footer-luxury {
+    background-color: #080808;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    border-top: 1px solid rgba(212, 175, 55, 0.15);
+    overflow: hidden;
+}
+
+/* Garis Tipis Elegan */
+.line-thin {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 0 auto;
+}
+
+.footer-text-main {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+    font-style: italic;
+}
+
+/* Label Label Kecil */
+.luxury-label {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: #d4af37;
+    font-weight: 600;
+}
+
+.luxury-label-small {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: rgba(212, 175, 55, 0.6);
+    font-weight: 600;
+}
+
+/* Tipografi Nama Pengantin */
+.name-luxury {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.family-luxury {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.ampersand-divider {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #d4af37;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Turut Mengundang List */
+.invited-list {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.dot-separator {
+    margin: 0 8px;
+    color: #d4af37;
+}
+
+/* Designer Credit Style */
+.designer-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.made-with {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+}
+
+.designer-name {
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    color: #d4af37;
+    font-weight: 600;
+}
+
+/* Link Sosial Media Modern */
+.social-luxury-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.social-luxury-link:hover {
+    color: #d4af37;
+    border-color: #d4af37;
+    transform: translateY(-3px);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+/* Responsive Mobile */
+@media (max-width: 576px) {
+    .name-luxury {
+        font-size: 1.5rem;
+    }
+    .footer-text-main {
+        font-size: 0.85rem;
+    }
+    .invited-list {
+        font-size: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .dot-separator {
+        display: none;
+    }
+}
+
+/* ========================================= */
+/* MUSIC           */
+/* ========================================= */
+/* === LUXURY MUSIC CONTROL CSS === */
+
+/* Container Utama (Posisi Kanan Bawah) */
+#music-control {
+    position: fixed;
+    bottom: 30px; /* Jarak dari bawah */
+    right: 30px;  /* Jarak dari kanan (DIUBAH) */
+    z-index: 9999;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* State Awal: Tersembunyi (di Section Hero/Opening) */
+.music-control-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8) translateY(20px);
+}
+
+/* State Saat Muncul: Elegan */
+.music-control-show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1) translateY(0);
+}
+
+/* Styling Tombol (Elegant Glossy Gold) */
+#music-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /* Warna Emas Transparan (Elegant) */
+    background: rgba(212, 175, 55, 0.25); 
+    /* Border Tipis Emas */
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    /* Efek Blur di belakang tombol (Mewah) */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #d4af37; /* Warna Emas Solid untuk Icon/Bar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    outline: none;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+#music-btn:hover {
+    background: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Styling Icon Mute */
+#music-icon-muted {
+    font-size: 22px;
+    color: #d4af37;
+}
+
+/* === ANIMASI WAVEFORM VISUALIZER (Kondisi Play) === */
+.music-visualizer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    gap: 3px;
+}
+
+.music-visualizer .bar {
+    width: 2px;
+    height: 100%;
+    background-color: #d4af37; /* Warna Bar Emas */
+    border-radius: 2px;
+    transform-origin: bottom;
+    animation: bounce 2.2s ease-in-out infinite;
+    /* State awal diam */
+    animation-play-state: paused; 
+}
+
+/* Variasi durasi animasi tiap bar agar terlihat alami */
+.music-visualizer .bar:nth-child(1) { animation-duration: 1.2s; height: 60%; }
+.music-visualizer .bar:nth-child(2) { animation-duration: 0.8s; height: 100%; }
+.music-visualizer .bar:nth-child(3) { animation-duration: 1.0s; height: 80%; }
+.music-visualizer .bar:nth-child(4) { animation-duration: 0.7s; height: 50%; }
+
+/* Keyframes untuk animasi bounce soundwave */
+@keyframes bounce {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
+}
+
+/* === LOGIKA STATE CSS (DIPANGGIL JS) === */
+
+/* Saat Musik Muter: Bar Gerak, Icon Mute Hilang */
+#music-btn.play-state .music-visualizer .bar {
+    animation-play-state: running;
+}
+
+/* Saat Musik Pause: Bar Diam, Icon Mute Muncul */
+#music-btn.paused-state .music-visualizer {
+    display: none; /* Sembunyikan wave */
+}
+
+#music-btn.paused-state #music-icon-muted {
+    display: block !important; /* Munculkan icon mute */
+}
+
+/* Utility class Bootstrap jika belum ada */
+.d-none { display: none !important; }
