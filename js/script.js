@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnText = document.getElementById('btn-text');
     const btnSpinner = document.getElementById('btn-spinner');
 
-    // Variabel Musik (Updated untuk desain baru)
+    // Variabel Musik
     const music = document.getElementById('weddingMusic');
     const musicControl = document.getElementById('music-control');
     const musicBtn = document.getElementById('music-btn');
@@ -36,9 +36,30 @@ document.addEventListener("DOMContentLoaded", function () {
         if (inputNama) inputNama.value = decodedNama;
     }
 
-    // === C. LOGIKA BUKA UNDANGAN ===
+    // === C. LOGIKA BUKA UNDANGAN (PRIORITAS HP) ===
     if (btnBuka) {
         btnBuka.addEventListener('click', function () {
+            // 1. EKSEKUSI MUSIK (Wajib di urutan pertama untuk bypass kebijakan browser HP)
+            if (music) {
+                music.play().then(() => {
+                    if (musicBtn) {
+                        musicBtn.classList.remove('paused-state');
+                        musicBtn.classList.add('play-state');
+                    }
+                    if (musicControl) {
+                        musicControl.classList.remove('music-control-hidden');
+                        musicControl.classList.add('music-control-show');
+                    }
+                }).catch(err => {
+                    console.log("Autoplay dicegah browser, kontrol manual diaktifkan.");
+                    if (musicControl) {
+                        musicControl.classList.remove('music-control-hidden');
+                        musicControl.classList.add('music-control-show');
+                    }
+                });
+            }
+
+            // 2. LOGIKA VISUAL & ANIMASI
             if (btnSpinner) btnSpinner.style.display = "inline-block"; 
             if (btnText) btnText.innerText = "Membuka Undangan...";
             this.style.pointerEvents = "none"; 
@@ -49,30 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 if (opening) opening.classList.remove('d-none');
                 if (mainContent) mainContent.classList.remove('d-none');
-
-                // --- LOGIKA MUSIK REVISI ---
-                if (music) {
-                    music.play().then(() => {
-                        // Jika sukses play, tambahkan class animasi play
-                        if (musicBtn) {
-                            musicBtn.classList.remove('paused-state');
-                            musicBtn.classList.add('play-state');
-                        }
-                    }).catch(err => {
-                        console.log("Autoplay dicegah browser.");
-                        // Jika gagal play otomatis, set ke state pause
-                        if (musicBtn) {
-                            musicBtn.classList.add('paused-state');
-                            musicBtn.classList.remove('play-state');
-                        }
-                    });
-
-                    if (musicControl) {
-                        musicControl.classList.remove('music-control-hidden');
-                        musicControl.classList.add('music-control-show');
-                    }
-                }
-                // ---------------------------
 
                 if (video) {
                     video.muted = false;
@@ -91,8 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (btnSpinner) btnSpinner.style.display = "none";
                     if (btnText) btnText.innerText = "Buka Undangan";
                     this.style.pointerEvents = "auto";
+                    this.style.display = "none"; 
                 }, 1000);
-            }, 800); 
+            }, 400); 
         });
     }
 
@@ -111,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // === E. LOGIKA LIGHTBOX GALERI (GLOBAL) ===
+    // === E. LOGIKA LIGHTBOX GALERI ===
     window.showLightbox = function(el) {
         const src = el.getAttribute('data-full');
         const img = document.getElementById('lightboxImg');
@@ -124,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    // === F. ANIMASI FADE UP (INTERSECTION OBSERVER) ===
+    // === F. ANIMASI FADE UP ===
     const observerOptions = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -169,11 +167,9 @@ document.addEventListener("DOMContentLoaded", function () {
     createCountdown('countdown-akad', '2026-04-16T09:00:00');
     createCountdown('countdown-resepsi', '2026-04-26T13:00:00');
 
-    // === H. LOGIKA RSVP & UCAPAN (PAGINATION & FIXED INDEX) ===
-
+    // === H. LOGIKA RSVP & UCAPAN ===
     function loadWishes() {
         if (!wishesContainer) return;
-        
         fetch(`${SCRIPT_URL}?action=read`)
             .then(res => res.json())
             .then(data => {
@@ -187,7 +183,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function displayWishes(page) {
         wishesContainer.innerHTML = '';
-        
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const paginatedItems = allWishes.slice(startIndex, endIndex);
@@ -200,7 +195,6 @@ document.addEventListener("DOMContentLoaded", function () {
         paginatedItems.forEach((item, displayIdx) => {
             const globalIdx = startIndex + displayIdx;
             const originalIdx = (allWishes.length - 1) - globalIdx;
-
             let replyHtml = item.balasan ? `
                 <div class="reply-item shadow-sm">
                     <div class="wish-name" style="font-size: 0.85rem; color: #d4af37;">${item.nama_admin}</div>
@@ -221,20 +215,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
         });
-
         renderPagination();
     }
 
     function renderPagination() {
         const totalPages = Math.ceil(allWishes.length / itemsPerPage);
         if (totalPages <= 1) return;
-
         let paginationHtml = `<div class="pagination-wrapper d-flex justify-content-center gap-2 mt-4">`;
         for (let i = 1; i <= totalPages; i++) {
-            paginationHtml += `
-                <button onclick="changePage(${i})" class="btn-page ${i === currentPage ? 'active' : ''}">
-                    ${i}
-                </button>`;
+            paginationHtml += `<button onclick="changePage(${i})" class="btn-page ${i === currentPage ? 'active' : ''}">${i}</button>`;
         }
         paginationHtml += `</div>`;
         wishesContainer.innerHTML += paginationHtml;
@@ -253,13 +242,10 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
             const btn = document.getElementById('btnKirimRsvp');
             const btnTextRsvp = document.getElementById('btnTextRsvp');
-            
             btn.disabled = true;
             if(btnTextRsvp) btnTextRsvp.innerText = "Mengirim...";
-
             const formData = new FormData(rsvpForm);
             formData.append('action', 'insert');
-
             fetch(SCRIPT_URL, { method: 'POST', body: formData })
                 .then(res => {
                     rsvpForm.reset();
@@ -291,17 +277,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const adminName = document.querySelector('input[name="adminName"]:checked').value;
             const replyText = document.getElementById('replyText').value;
             const rowIndex = document.getElementById('replyRowIndex').value;
-
             const submitBtn = replyForm.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.innerText = "Mengirim...";
-
             const replyData = new FormData();
             replyData.append('action', 'reply');
             replyData.append('index', rowIndex);
             replyData.append('nama_admin', adminName);
             replyData.append('balasan', replyText);
-
             fetch(SCRIPT_URL, { method: 'POST', body: replyData })
                 .then(res => {
                     replyForm.reset();
@@ -323,13 +306,11 @@ document.addEventListener("DOMContentLoaded", function () {
     window.toggleGifts = function() {
         const container = document.getElementById('giftContainer');
         const triggerBtn = document.getElementById('btnGiftTrigger');
-        
         if (container.classList.contains('d-none')) {
             container.classList.remove('d-none');
             container.classList.add('animate__fadeInUp');
             triggerBtn.innerHTML = '<i class="fas fa-times me-2"></i> Tutup Menu Hadiah';
             triggerBtn.classList.replace('btn-gold', 'btn-outline-light');
-            
             setTimeout(() => {
                 container.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
@@ -337,7 +318,6 @@ document.addEventListener("DOMContentLoaded", function () {
             container.classList.add('d-none');
             triggerBtn.innerHTML = '<i class="fas fa-gift me-2"></i> Klik Untuk Memberi Hadiah';
             triggerBtn.classList.replace('btn-outline-light', 'btn-gold');
-            
             document.getElementById('gifts').scrollIntoView({ behavior: 'smooth' });
         }
     };
@@ -345,13 +325,10 @@ document.addEventListener("DOMContentLoaded", function () {
     window.copyValue = function(elementId) {
         const element = document.getElementById(elementId);
         if (!element) return;
-        
         let textToCopy = element.innerText || element.textContent;
-        
         if (elementId.includes('norek') || elementId.includes('noDana')) {
             textToCopy = textToCopy.replace(/[^0-9]/g, '');
         }
-
         navigator.clipboard.writeText(textToCopy).then(() => {
             alert("Berhasil menyalin: " + textToCopy);
         }).catch(err => {
@@ -359,7 +336,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 
-    // === J. LOGIKA DOWNLOAD QRIS (Mencegah Refresh) ===
     window.downloadQR = function(url, filename) {
         fetch(url)
             .then(response => response.blob())
@@ -379,18 +355,15 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     };
 
-    // === K. LOGIKA MUSIC TOGGLE (REVISI LUXURY) ===
+    // === K. LOGIKA MUSIC TOGGLE ===
     window.toggleMusic = function() {
         if (!music || !musicBtn) return;
-
         if (music.paused) {
             music.play();
-            // Gunakan class state untuk visualizer
             musicBtn.classList.remove('paused-state');
             musicBtn.classList.add('play-state');
         } else {
             music.pause();
-            // Gunakan class state untuk visualizer
             musicBtn.classList.remove('play-state');
             musicBtn.classList.add('paused-state');
         }
