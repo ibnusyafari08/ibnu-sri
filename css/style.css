@@ -1112,126 +1112,226 @@ body.undangan-terbuka {
 /* RSVP            */
 /* ========================================= */
 /* --- RSVP THEME --- */
+/* === SECTION RSVP & UCAPAN (ELEGAN & MEWAH) === */
+
 .rsvp-card {
-    background: #111111; /* Solid Grey */
+    background: #111111; /* Solid Dark Grey */
     border: 1px solid rgba(212, 175, 55, 0.4);
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efek cahaya halus di pojok card */
+.rsvp-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 .gold-label {
     color: #d4af37;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    display: block;
 }
 
 .custom-input {
     background-color: #1a1a1a !important;
     border: 1px solid #333 !important;
     color: #ffffff !important;
-    border-radius: 10px !important;
-    padding: 12px 15px !important;
+    border-radius: 12px !important;
+    padding: 12px 18px !important;
+    font-size: 0.95rem;
+    transition: all 0.3s ease !important;
 }
 
 .custom-input:focus {
     border-color: #d4af37 !important;
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2) !important;
+    background-color: #222 !important;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15) !important;
+    outline: none;
 }
 
 .btn-gold {
-    background: #d4af37;
-    color: #000;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d06f 50%, #b8962d 100%);
+    color: #000 !important;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     border: none;
-    border-radius: 10px;
-    padding: 12px 25px;
-    transition: 0.3s ease;
+    border-radius: 12px;
+    padding: 14px 30px;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
 }
 
 .btn-gold:hover {
-    background: #b8962d;
     transform: translateY(-3px);
-    color: #000;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
+    filter: brightness(1.1);
 }
 
-/* Tampilan List Ucapan */
+/* --- Tampilan List Ucapan (Wish Item) --- */
 .wish-item {
-    background: #111111;
+    background: #161616; /* Dibuat sedikit lebih terang dari bg utama agar box terlihat jelas */
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Border dipertegas agar card lebih jelas */
     border-left: 5px solid #d4af37;
     padding: 25px;
-    border-radius: 0 15px 15px 0;
+    border-radius: 4px 20px 20px 4px;
     margin-bottom: 25px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+
+.wish-item:hover {
+    transform: scale(1.01);
+    border-color: rgba(212, 175, 55, 0.6);
 }
 
 .wish-name {
-    color: #d4af37;
-    font-weight: 800;
-    font-size: 1.1rem;
-    margin-bottom: 2px;
+    color: #d4af37 !important; /* Nama Tamu Berwarna Gold */
+    font-family: 'Playfair Display', serif; 
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
 }
 
-.wish-status {
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    border-radius: 5px;
+.badge-status {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 50px;
     background: rgba(212, 175, 55, 0.1);
-    border: 1px solid #d4af37;
+    border: 1px solid rgba(212, 175, 55, 0.5);
     color: #d4af37;
-    margin-left: 10px;
+    text-transform: uppercase;
 }
 
 .wish-date {
-    color: #777;
+    color: #666;
     font-size: 0.75rem;
+    margin: 5px 0 15px 0;
     display: block;
-    margin-bottom: 15px;
+    font-style: italic;
 }
 
 .wish-text {
-    color: #dddddd;
-    line-height: 1.6;
-    font-size: 0.95rem;
+    color: #e0e0e0;
+    line-height: 1.7;
+    font-size: 1rem;
+    white-space: pre-line;
+}
+
+/* --- Pagination (Angka Halaman) --- */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+    padding: 20px 0;
+}
+
+.btn-page {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    background: transparent;
+    color: #d4af37;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-page.active {
+    background: #d4af37;
+    color: #111;
+    border-color: #d4af37;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-page:hover:not(.active) {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #d4af37;
+    transform: translateY(-2px);
+}
+
+/* --- Balasan Admin (Dibuat Lebih Kecil & Menjorok) --- */
+.reply-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 15px; /* Padding dikecilkan sedikit */
+    margin-top: 15px;
+    margin-left: 25px; /* Efek menjorok ke dalam */
+    border-left: 2px solid rgba(255, 255, 255, 0.3); /* Garis pemisah lebih soft */
+    position: relative;
+}
+
+.reply-item .wish-name {
+    font-size: 1rem !important; /* Nama Admin lebih kecil dari tamu */
+    color: #ffffff !important; /* Nama Admin dibuat putih agar Nama Tamu tetap dominan */
+}
+
+.reply-item .wish-text {
+    font-size: 0.9rem !important; /* Teks balasan lebih kecil */
+    color: #bbbbbb;
 }
 
 .btn-reply-link {
     color: #d4af37;
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    background: transparent;
+    background: none;
     border: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
     padding: 0;
     margin-top: 15px;
-    transition: 0.2s;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .btn-reply-link:hover {
-    color: #fff;
+    color: #ffffff;
+    text-decoration: underline;
 }
 
-/* Tampilan Balasan Admin */
-.reply-item {
-    background: #1a1a1a;
-    border-radius: 10px;
-    padding: 15px;
-    margin-top: 20px;
-    border-left: 3px solid #eee;
-}
-
+/* Radio Button Style di Modal */
 .btn-outline-gold {
     border: 1px solid #d4af37;
     color: #d4af37;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 600;
 }
 
 .btn-check:checked + .btn-outline-gold {
-    background-color: #d4af37;
-    color: #000;
+    background: #d4af37 !important;
+    color: #111 !important;
+    border-color: #d4af37;
 }
 
-@media (max-width: 767px) {
-    .wish-item { padding: 15px; }
+/* Responsive */
+@media (max-width: 768px) {
+    .wish-item {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .wish-name { font-size: 1.1rem; }
+    .btn-page { width: 35px; height: 35px; }
+    .reply-item { margin-left: 15px; } /* Menyesuaikan indent di layar kecil */
 }

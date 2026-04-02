@@ -13,6 +13,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputNama = document.getElementById('inputNama');
     const wishesContainer = document.getElementById('wishesContainer');
     
+    // State Paginasi
+    let currentPage = 1;
+    const itemsPerPage = 3;
+    let allWishes = []; 
+
     // URL Web App Google Apps Script
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyc757PMFaRfjeZcT-9gF5FrGWalu5EbUEoz1UQzDpVkE_ECcYoh1TH9xSujHWyRo3M/exec'; 
 
@@ -135,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
     createCountdown('countdown-akad', '2026-04-16T09:00:00');
     createCountdown('countdown-resepsi', '2026-04-26T13:00:00');
 
-    // === H. LOGIKA RSVP & UCAPAN (FIXED INDEX) ===
+    // === H. LOGIKA RSVP & UCAPAN (PAGINATION & FIXED INDEX) ===
 
     function loadWishes() {
         if (!wishesContainer) return;
@@ -143,40 +148,77 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`${SCRIPT_URL}?action=read`)
             .then(res => res.json())
             .then(data => {
-                wishesContainer.innerHTML = '';
-                const totalData = data.length;
-                // Kita buat copy data untuk di-reverse
-                const displayData = [...data].reverse();
-
-                displayData.forEach((item, displayIdx) => {
-                    // RUMUS KRUSIAL: Menghitung index baris asli di Spreadsheet
-                    const originalIdx = (totalData - 1) - displayIdx;
-
-                    let replyHtml = item.balasan ? `
-                        <div class="reply-item shadow-sm">
-                            <div class="wish-name" style="font-size: 0.85rem; color: #d4af37;">${item.nama_admin}</div>
-                            <div class="wish-date" style="font-size: 0.7rem;">${item.tgl_balas}</div>
-                            <div class="wish-text" style="font-size: 0.9rem;">${item.balasan}</div>
-                        </div>
-                    ` : `<button class="btn-reply-link" onclick="openReplyModal('${originalIdx}', '${item.nama}')">Balas Ucapan</button>`;
-
-                    wishesContainer.innerHTML += `
-                        <div class="wish-item fade-up show">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div class="wish-name">${item.nama}</div>
-                                <span class="badge-status">${item.konfirmasi} (${item.jumlah})</span>
-                            </div>
-                            <div class="wish-date">${item.timestamp}</div>
-                            <div class="wish-text">${item.ucapan}</div>
-                            <div id="reply-box-${originalIdx}">${replyHtml}</div>
-                        </div>
-                    `;
-                });
+                // Simpan data asli dan balik urutannya (terbaru di atas)
+                allWishes = [...data].reverse();
+                displayWishes(currentPage);
             })
             .catch(err => {
                 wishesContainer.innerHTML = '<div class="text-center text-white-50 p-4">Belum ada ucapan.</div>';
             });
     }
+
+    function displayWishes(page) {
+        wishesContainer.innerHTML = '';
+        
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedItems = allWishes.slice(startIndex, endIndex);
+
+        if (paginatedItems.length === 0) {
+            wishesContainer.innerHTML = '<div class="text-center text-white-50 p-4">Belum ada ucapan.</div>';
+            return;
+        }
+
+        paginatedItems.forEach((item, displayIdx) => {
+            // RUMUS: Menghitung index baris asli di Spreadsheet untuk reply
+            const globalIdx = startIndex + displayIdx;
+            const originalIdx = (allWishes.length - 1) - globalIdx;
+
+            let replyHtml = item.balasan ? `
+                <div class="reply-item shadow-sm">
+                    <div class="wish-name" style="font-size: 0.85rem; color: #d4af37;">${item.nama_admin}</div>
+                    <div class="wish-date" style="font-size: 0.7rem;">${item.tgl_balas}</div>
+                    <div class="wish-text" style="font-size: 0.9rem;">${item.balasan}</div>
+                </div>
+            ` : `<button class="btn-reply-link" onclick="openReplyModal('${originalIdx}', '${item.nama}')">Balas Ucapan</button>`;
+
+            wishesContainer.innerHTML += `
+                <div class="wish-item fade-up show">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="wish-name">${item.nama}</div>
+                        <span class="badge-status">${item.konfirmasi} (${item.jumlah})</span>
+                    </div>
+                    <div class="wish-date">${item.timestamp}</div>
+                    <div class="wish-text">${item.ucapan}</div>
+                    <div id="reply-box-${originalIdx}">${replyHtml}</div>
+                </div>
+            `;
+        });
+
+        renderPagination();
+    }
+
+    function renderPagination() {
+        const totalPages = Math.ceil(allWishes.length / itemsPerPage);
+        if (totalPages <= 1) return;
+
+        let paginationHtml = `<div class="pagination-wrapper d-flex justify-content-center gap-2 mt-4">`;
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHtml += `
+                <button onclick="changePage(${i})" class="btn-page ${i === currentPage ? 'active' : ''}">
+                    ${i}
+                </button>`;
+        }
+        paginationHtml += `</div>`;
+        wishesContainer.innerHTML += paginationHtml;
+    }
+
+    window.changePage = function(page) {
+        currentPage = page;
+        displayWishes(page);
+        // Scroll halus kembali ke bagian atas list ucapan
+        wishesContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
 
     loadWishes();
 
@@ -198,6 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (namaTamu) inputNama.value = decodeURIComponent(namaTamu);
                     btn.disabled = false;
                     if(btnTextRsvp) btnTextRsvp.innerText = "Kirim Ucapan";
+                    currentPage = 1; // Kembali ke hal 1 untuk melihat ucapan baru
                     loadWishes(); 
                 })
                 .catch(error => {
