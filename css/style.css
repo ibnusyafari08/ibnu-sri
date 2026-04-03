@@ -1459,142 +1459,214 @@ body.undangan-terbuka {
 /* FOOTER            */
 /* ========================================= */
 
-/* --- LUXURY FOOTER STYLES --- */
+/* --- FOOTER LUXURY STYLE --- */
+
 .footer-luxury {
-    background-color: #080808;
-    color: #ffffff;
-    font-family: 'Montserrat', sans-serif;
-    border-top: 1px solid rgba(212, 175, 55, 0.15);
-    overflow: hidden;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(20, 20, 20, 0.02) 100%);
+    padding-top: 80px !important;
+    padding-bottom: 40px !important;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    font-family: 'Playfair Display', serif; /* Pastikan font ini ter-import */
 }
 
-/* Garis Tipis Elegan */
-.line-thin {
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #d4af37, transparent);
-    margin: 0 auto;
+/* Quote Section */
+.footer-quote-wrapper {
+    position: relative;
+    padding: 0 20px;
 }
 
 .footer-text-main {
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.7);
-    line-height: 1.8;
-    letter-spacing: 0.5px;
     font-style: italic;
-}
-
-/* Label Label Kecil */
-.luxury-label {
-    font-size: 0.75rem;
-    letter-spacing: 4px;
-    color: #d4af37;
-    font-weight: 600;
-}
-
-.luxury-label-small {
-    font-size: 0.65rem;
-    letter-spacing: 3px;
-    color: rgba(212, 175, 55, 0.6);
-    font-weight: 600;
-}
-
-/* Tipografi Nama Pengantin */
-.name-luxury {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    color: #ffffff;
-    margin-bottom: 5px;
-    letter-spacing: 1px;
-}
-
-.family-luxury {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 300;
-    letter-spacing: 1px;
-}
-
-.ampersand-divider {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    color: #d4af37;
-    font-style: italic;
-    opacity: 0.8;
-}
-
-/* Turut Mengundang List */
-.invited-list {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.5);
+    color: #555;
     line-height: 1.8;
-    max-width: 600px;
+    font-size: 1.1rem;
+}
+
+.line-thin {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #d4af37, transparent);
     margin: 0 auto;
 }
 
-.dot-separator {
-    margin: 0 8px;
+/* Label & Typography */
+.luxury-label {
+    letter-spacing: 5px;
+    font-size: 0.85rem;
     color: #d4af37;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
 }
 
-/* Designer Credit Style */
+.luxury-label-small {
+    letter-spacing: 3px;
+    font-size: 0.75rem;
+    color: #888;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.name-luxury {
+    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+    
+    /* 2. Teknik Gold Gradient Premium */
+    background: linear-gradient(
+        135deg, 
+        #b8952e 0%,   /* Dark Gold */
+        #d4af37 25%,  /* Base Gold */
+        #f8e9a1 50%,  /* Highlight/Shine */
+        #d4af37 75%,  /* Base Gold */
+        #b8952e 100%  /* Dark Gold */
+    );
+    
+    /* 3. Clip Background ke Text */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    
+    /* 4. Efek Bayangan Halus untuk kedalaman */
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    
+    /* Animasi Shimmer saat Load (Opsional, hapus jika tidak suka) */
+    background-size: 200% auto;
+    animation: goldShimmer 4s linear infinite;
+}
+
+/* Kustomisasi Ampersand (&) agar Senada */
+.ampersand-divider {
+    font-size: 2.5rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    position: relative;
+    display: inline-block;
+    
+    /* Menggunakan Gold Solid agar kontras dengan gradient nama */
+    color: #d4af37; 
+    
+    /* Tambahkan garis hiasan di kiri kanan */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: #888; /* Warna teks & */
+}
+
+.ampersand-divider::before,
+.ampersand-divider::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.5));
+}
+.ampersand-divider::after {
+    background: linear-gradient(to left, transparent, rgba(212, 175, 55, 0.5));
+}
+
+/* Keyframes untuk efek Shimmer Emas bergeral */
+@keyframes goldShimmer {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+    .name-luxury {
+        font-size: 2.2rem; /* Ukuran menyesuaikan di HP */
+    }
+}
+
+.family-luxury {
+    font-size: 0.95rem;
+    color: #777;
+    line-height: 1.6;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Ampersand Divider */
+.ampersand-divider {
+    font-size: 1.8rem;
+    color: #d4af37;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    position: relative;
+    display: inline-block;
+}
+
+/* Invited List */
+.invited-list {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 2;
+}
+
+.dot-separator {
+    margin: 0 10px;
+    color: #d4af37;
+    font-weight: bold;
+}
+
+/* Designer / Credits Section */
 .designer-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(0,0,0,0.05);
 }
 
 .made-with {
-    font-size: 0.6rem;
-    letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.4);
-    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    color: #999;
 }
 
-.designer-name {
-    font-size: 0.85rem;
-    letter-spacing: 1.5px;
-    color: #d4af37;
-    font-weight: 600;
+.text-gold {
+    color: #d4af37 !important;
+    transition: all 0.3s ease;
 }
 
-/* Link Sosial Media Modern */
+.text-gold:hover {
+    color: #b8952e !important;
+    letter-spacing: 1px;
+}
+
+/* Social Icons */
 .social-luxury-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
+    background: #fdfdfd;
+    border: 1px solid rgba(214, 175, 55, 0.3);
     border-radius: 50%;
-    color: rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.85rem;
+    color: #d4af37;
     text-decoration: none;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .social-luxury-link:hover {
-    color: #d4af37;
-    border-color: #d4af37;
-    transform: translateY(-3px);
-    background: rgba(212, 175, 55, 0.05);
+    background: #d4af37;
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
 }
 
-/* Responsive Mobile */
-@media (max-width: 576px) {
+/* Responsive */
+@media (max-width: 768px) {
     .name-luxury {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
     }
     .footer-text-main {
-        font-size: 0.85rem;
-    }
-    .invited-list {
-        font-size: 0.75rem;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-    .dot-separator {
-        display: none;
+        font-size: 1rem;
     }
 }
 

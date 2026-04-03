@@ -36,30 +36,38 @@ document.addEventListener("DOMContentLoaded", function () {
         if (inputNama) inputNama.value = decodedNama;
     }
 
-    // === C. LOGIKA BUKA UNDANGAN (PRIORITAS HP) ===
+    // === C. LOGIKA BUKA UNDANGAN (FIX AUTO AUDIO SAFARI/CHROME) ===
     if (btnBuka) {
         btnBuka.addEventListener('click', function () {
-            // 1. EKSEKUSI MUSIK (Wajib di urutan pertama untuk bypass kebijakan browser HP)
+            // 1. EKSEKUSI MUSIK (WAJIB PALING ATAS & SINKRON)
+            // Safari memblokir audio jika ada delay (seperti delay di dalam fetch atau setTimeout)
             if (music) {
-                music.play().then(() => {
-                    if (musicBtn) {
-                        musicBtn.classList.remove('paused-state');
-                        musicBtn.classList.add('play-state');
-                    }
-                    if (musicControl) {
-                        musicControl.classList.remove('music-control-hidden');
-                        musicControl.classList.add('music-control-show');
-                    }
-                }).catch(err => {
-                    console.log("Autoplay dicegah browser, kontrol manual diaktifkan.");
-                    if (musicControl) {
-                        musicControl.classList.remove('music-control-hidden');
-                        musicControl.classList.add('music-control-show');
-                    }
-                });
+                music.muted = false; // Pastikan tidak mute
+                let playPromise = music.play();
+
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // Musik sukses putar
+                        if (musicBtn) {
+                            musicBtn.classList.remove('paused-state');
+                            musicBtn.classList.add('play-state');
+                        }
+                        if (musicControl) {
+                            musicControl.classList.remove('music-control-hidden');
+                            musicControl.classList.add('music-control-show');
+                        }
+                    }).catch(err => {
+                        console.log("Autoplay dicegah, mencoba fallback...");
+                        // Fallback: Jika gagal, paksa munculkan kontrol musik agar user bisa klik manual
+                        if (musicControl) {
+                            musicControl.classList.remove('music-control-hidden');
+                            musicControl.classList.add('music-control-show');
+                        }
+                    });
+                }
             }
 
-            // 2. LOGIKA VISUAL & ANIMASI
+            // 2. LOGIKA VISUAL & ANIMASI (Setelah Audio dipicu)
             if (btnSpinner) btnSpinner.style.display = "inline-block"; 
             if (btnText) btnText.innerText = "Membuka Undangan...";
             this.style.pointerEvents = "none"; 
@@ -67,10 +75,12 @@ document.addEventListener("DOMContentLoaded", function () {
             document.body.classList.remove('undangan-tertutup');
             document.body.classList.add('undangan-terbuka');
 
+            // Delay untuk transisi buka undangan
             setTimeout(() => {
                 if (opening) opening.classList.remove('d-none');
                 if (mainContent) mainContent.classList.remove('d-none');
 
+                // Kontrol Video (Jika ada)
                 if (video) {
                     video.muted = false;
                     video.currentTime = 0;
