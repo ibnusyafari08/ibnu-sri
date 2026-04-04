@@ -36,45 +36,60 @@ document.addEventListener("DOMContentLoaded", function () {
         if (inputNama) inputNama.value = decodedNama;
     }
 
-    // === C. LOGIKA BUKA UNDANGAN (FIX AUTO AUDIO) ===
+    // === C. LOGIKA BUKA UNDANGAN (OPTIMASI HP / MOBILE) ===
     if (btnBuka) {
-        btnBuka.addEventListener('click', function () {
-            // 1. EKSEKUSI MUSIK SEGERA (Sangat Penting: Harus baris pertama)
+        btnBuka.addEventListener('click', function (e) {
+            // Mencegah aksi default jika ada
+            e.preventDefault();
+
+            // 1. EKSEKUSI MUSIK (WAJIB DI BARIS PERTAMA TANPA DELAY)
+            // Di HP, perintah ini harus dieksekusi SEGERA setelah sentuhan jari
             if (music) {
-                music.muted = false; // Pastikan tidak ter-mute
-                music.play().then(() => {
-                    // Update tampilan tombol musik jika berhasil
-                    if (musicBtn) {
-                        musicBtn.classList.remove('paused-state');
-                        musicBtn.classList.add('play-state');
-                    }
-                    if (musicControl) {
-                        musicControl.classList.remove('music-control-hidden');
-                        musicControl.classList.add('music-control-show');
-                    }
-                }).catch(err => {
-                    console.error("Autoplay dicegah oleh browser:", err);
-                });
+                music.muted = false;
+                
+                // Paksa pemutaran
+                const playPromise = music.play();
+
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // Berhasil putar, update UI kontrol musik
+                        if (musicBtn) {
+                            musicBtn.classList.remove('paused-state');
+                            musicBtn.classList.add('play-state');
+                        }
+                        if (musicControl) {
+                            musicControl.classList.remove('music-control-hidden');
+                            musicControl.classList.add('music-control-show');
+                        }
+                        console.log("Audio started successfully");
+                    }).catch(err => {
+                        // Jika masih gagal (kebijakan browser ekstrem)
+                        console.log("Audio play failed:", err);
+                    });
+                }
             }
 
-            // 2. LOGIKA VISUAL & ANIMASI
+            // 2. LOGIKA VISUAL (Lakukan SETELAH perintah music.play)
             if (btnSpinner) btnSpinner.style.display = "inline-block"; 
-            if (btnText) btnText.innerText = "Membuka Undangan...";
+            if (btnText) btnText.innerText = "Membuka...";
+            
+            // Nonaktifkan tombol agar tidak diklik dua kali
             this.style.pointerEvents = "none"; 
 
+            // Tambahkan class buka ke body
             document.body.classList.remove('undangan-tertutup');
             document.body.classList.add('undangan-terbuka');
 
-            // Delay sebentar untuk memberikan kesan transisi yang halus
+            // Jalankan animasi transisi halaman
             setTimeout(() => {
                 if (opening) opening.classList.remove('d-none');
                 if (mainContent) mainContent.classList.remove('d-none');
 
-                // Kontrol Video (Jika ada video opening)
+                // Jika ada video opening, putar juga
                 if (video) {
                     video.muted = false;
-                    video.currentTime = 0;
                     video.play().catch(() => {
+                        // Jika video gagal (karena kebijakan autoplay juga), mute lalu putar
                         video.muted = true;
                         video.play();
                     });
@@ -84,13 +99,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     opening.scrollIntoView({ behavior: 'smooth' });
                 }
                 
+                // Sembunyikan tombol buka setelah transisi selesai
                 setTimeout(() => {
-                    if (btnSpinner) btnSpinner.style.display = "none";
-                    if (btnText) btnText.innerText = "Buka Undangan";
-                    this.style.pointerEvents = "auto";
                     this.style.display = "none"; 
-                }, 1000);
-            }, 400); 
+                }, 800);
+            }, 100); // Delay diperkecil agar respon terasa lebih cepat di HP
         });
     }
 
