@@ -26,11 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyc757PMFaRfjeZcT-9gF5FrGWalu5EbUEoz1UQzDpVkE_ECcYoh1TH9xSujHWyRo3M/exec'; 
 
-    // === B. LOCK SCROLL AWAL ===
-    // Memastikan user tidak bisa scroll sebelum klik tombol buka
+    // === B. LOCK SCROLL AWAL (HP & LAPTOP) ===
     body.style.overflow = 'hidden';
 
-    // === C. LOGIKA NAMA TAMU ===
+    // === C. LOGIKA NAMA TAMU (URL PARAMETER) ===
     const urlParams = new URLSearchParams(window.location.search);
     const namaTamu = urlParams.get('to');
     if (namaTamu) {
@@ -40,15 +39,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (inputNama) inputNama.value = decodedNama;
     }
 
-    // === D. LOGIKA BUKA UNDANGAN (FIX AUTO-PLAY) ===
+    // === D. LOGIKA BUKA UNDANGAN (FIX AUTO-PLAY MUSIC & VIDEO) ===
     if (btnBuka) {
         btnBuka.addEventListener('click', function (e) {
             e.preventDefault();
 
-            // 1. EKSEKUSI AUDIO (WAJIB PERTAMA)
+            // 1. EKSEKUSI MUSIK (WAJIB DI ATAS AGAR TIDAK DIBLOKIR HP)
             if (music) {
                 music.muted = false;
-                // Menggunakan play() langsung di event listener adalah kunci sukses di HP
                 music.play().then(() => {
                     if (musicBtn) {
                         musicBtn.classList.remove('paused-state');
@@ -58,15 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         musicControl.classList.remove('music-control-hidden');
                         musicControl.classList.add('music-control-show');
                     }
-                }).catch(err => console.log("Audio Play Blocked:", err));
+                }).catch(err => console.log("Music play blocked:", err));
             }
 
-            // 2. EKSEKUSI VIDEO
+            // 2. EKSEKUSI VIDEO OPENING
             if (video) {
                 video.muted = false;
                 video.play().catch(() => {
-                    // Fallback jika audio video masih diblokir, mainkan muted dulu
-                    video.muted = true;
+                    video.muted = true; // Fallback jika browser memaksa mute
                     video.play();
                 });
             }
@@ -76,12 +73,12 @@ document.addEventListener("DOMContentLoaded", function () {
             if (btnText) btnText.innerText = "Membuka...";
             this.style.pointerEvents = "none"; 
 
-            // 4. UNLOCK SCROLL & TRANSISI
-            body.style.overflow = 'auto'; // Unlock scroll
-            body.classList.remove('undangan-tertutup');
-            body.classList.add('undangan-terbuka');
-
+            // 4. TRANSISI & UNLOCK SCROLL
             setTimeout(() => {
+                body.style.overflow = 'auto'; // Aktifkan scroll kembali
+                body.classList.remove('undangan-tertutup');
+                body.classList.add('undangan-terbuka');
+
                 if (opening) opening.classList.remove('d-none');
                 if (mainContent) mainContent.classList.remove('d-none');
 
@@ -111,33 +108,91 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // === F. FITUR SALIN (FIX MOBILE CLIPBOARD) ===
+    // === F. LOGIKA HITUNG MUNDUR (COUNTDOWN) - TETAP DIJAGA ===
+    function createCountdown(elementId, targetDateString) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        const targetDate = new Date(targetDateString).getTime();
+
+        const timer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                element.innerHTML = "<div class='text-white fw-bold text-center w-100'>Acara Telah Selesai</div>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            element.innerHTML = `
+                <div class="time-box"><span class="time-val">${days}</span><span class="time-label">Hari</span></div>
+                <div class="time-box"><span class="time-val">${hours}</span><span class="time-label">Jam</span></div>
+                <div class="time-box"><span class="time-val">${minutes}</span><span class="time-label">Menit</span></div>
+                <div class="time-box"><span class="time-val">${seconds}</span><span class="time-label">Detik</span></div>
+            `;
+        }, 1000);
+    }
+    // Inisialisasi Countdown
+    createCountdown('countdown-akad', '2026-04-16T09:00:00');
+    createCountdown('countdown-resepsi', '2026-04-18T13:00:00');
+
+    // === G. LOGIKA TOMBOL GIFT (HADIAH) - TETAP LENGKAP ===
+    window.toggleGifts = function() {
+        const container = document.getElementById('giftContainer');
+        const triggerBtn = document.getElementById('btnGiftTrigger');
+        if (!container || !triggerBtn) return;
+
+        if (container.classList.contains('d-none')) {
+            container.classList.remove('d-none');
+            container.classList.add('animate__fadeInUp');
+            triggerBtn.innerHTML = '<i class="fas fa-times me-2"></i> Tutup Menu Hadiah';
+            triggerBtn.classList.replace('btn-gold', 'btn-outline-light');
+            setTimeout(() => {
+                container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        } else {
+            container.classList.add('d-none');
+            triggerBtn.innerHTML = '<i class="fas fa-gift me-2"></i> Klik Untuk Memberi Hadiah';
+            triggerBtn.classList.replace('btn-outline-light', 'btn-gold');
+            const giftSection = document.getElementById('gifts');
+            if(giftSection) giftSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    // Fungsi Copy (Salin No Rekening) - Diperbaiki untuk Mobile
     window.copyValue = function(elementId) {
         const element = document.getElementById(elementId);
         if (!element) return;
         let textToCopy = element.innerText || element.textContent;
-        
         if (elementId.includes('norek') || elementId.includes('noDana')) {
             textToCopy = textToCopy.replace(/[^0-9]/g, '');
         }
 
-        // Metode Modern & Fallback untuk HP lama
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(textToCopy).then(() => {
                 alert("Berhasil menyalin: " + textToCopy);
-            });
+            }).catch(() => fallbackCopy(textToCopy));
         } else {
-            const textArea = document.createElement("textarea");
-            textArea.value = textToCopy;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            alert("Berhasil menyalin: " + textToCopy);
+            fallbackCopy(textToCopy);
         }
     };
 
-    // === G. LOGIKA RSVP & UCAPAN (TETAP SAMA) ===
+    function fallbackCopy(text) {
+        const dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = text;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+        alert("Berhasil menyalin: " + text);
+    }
+
+    // === H. LOGIKA RSVP & UCAPAN (TETAP SAMA) ===
     function loadWishes() {
         if (!wishesContainer) return;
         fetch(`${SCRIPT_URL}?action=read`)
@@ -146,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 allWishes = [...data].reverse();
                 displayWishes(currentPage);
             })
-            .catch(err => {
+            .catch(() => {
                 wishesContainer.innerHTML = '<div class="text-center text-white-50 p-4">Belum ada ucapan.</div>';
             });
     }
@@ -174,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ` : `<button class="btn-reply-link" onclick="openReplyModal('${originalIdx}', '${item.nama}')">Balas Ucapan</button>`;
 
             wishesContainer.innerHTML += `
-                <div class="wish-item fade-up show">
+                <div class="wish-item">
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="wish-name">${item.nama}</div>
                         <span class="badge-status">${item.konfirmasi} (${item.jumlah})</span>
@@ -202,7 +257,6 @@ document.addEventListener("DOMContentLoaded", function () {
     window.changePage = function(page) {
         currentPage = page;
         displayWishes(page);
-        wishesContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     loadWishes();
@@ -211,85 +265,36 @@ document.addEventListener("DOMContentLoaded", function () {
         rsvpForm.addEventListener('submit', e => {
             e.preventDefault();
             const btn = document.getElementById('btnKirimRsvp');
-            const btnTextRsvp = document.getElementById('btnTextRsvp');
             btn.disabled = true;
-            if(btnTextRsvp) btnTextRsvp.innerText = "Mengirim...";
             const formData = new FormData(rsvpForm);
             formData.append('action', 'insert');
             fetch(SCRIPT_URL, { method: 'POST', body: formData })
-                .then(res => {
+                .then(() => {
                     rsvpForm.reset();
-                    if (namaTamu) inputNama.value = decodeURIComponent(namaTamu);
                     btn.disabled = false;
-                    if(btnTextRsvp) btnTextRsvp.innerText = "Kirim Ucapan";
-                    currentPage = 1; 
                     loadWishes(); 
                 })
-                .catch(error => {
-                    alert("Gagal mengirim ucapan, silakan coba lagi.");
+                .catch(() => {
+                    alert("Gagal mengirim ucapan.");
                     btn.disabled = false;
-                    if(btnTextRsvp) btnTextRsvp.innerText = "Kirim Ucapan";
                 });
         });
     }
 
-    // === H. LOGIKA LIGHTBOX & GIFTS (TETAP SAMA) ===
+    // === I. LOGIKA LIGHTBOX GALERI ===
     window.showLightbox = function(el) {
         const src = el.getAttribute('data-full');
         const img = document.getElementById('lightboxImg');
         const modalEl = document.getElementById('galleryModal');
         if (img && src && modalEl) {
             img.src = src;
-            const myModal = new bootstrap.Modal(modalEl);
-            myModal.show();
+            new bootstrap.Modal(modalEl).show();
         }
     };
 
-    window.toggleGifts = function() {
-        const container = document.getElementById('giftContainer');
-        const triggerBtn = document.getElementById('btnGiftTrigger');
-        if (container.classList.contains('d-none')) {
-            container.classList.remove('d-none');
-            triggerBtn.innerHTML = '<i class="fas fa-times me-2"></i> Tutup Menu Hadiah';
-            setTimeout(() => {
-                container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-        } else {
-            container.classList.add('d-none');
-            triggerBtn.innerHTML = '<i class="fas fa-gift me-2"></i> Klik Untuk Memberi Hadiah';
-        }
-    };
-
-    // COUNTDOWN (TETAP SAMA)
-    function createCountdown(elementId, targetDateString) {
-        const element = document.getElementById(elementId);
-        if (!element) return;
-        const targetDate = new Date(targetDateString).getTime();
-        const timer = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-            if (distance < 0) {
-                clearInterval(timer);
-                element.innerHTML = "<div class='text-white fw-bold text-center w-100'>Acara Telah Selesai</div>";
-                return;
-            }
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            element.innerHTML = `
-                <div class="time-box"><span class="time-val">${days}</span><span class="time-label">Hari</span></div>
-                <div class="time-box"><span class="time-val">${hours}</span><span class="time-label">Jam</span></div>
-                <div class="time-box"><span class="time-val">${minutes}</span><span class="time-label">Menit</span></div>
-                <div class="time-box"><span class="time-val">${seconds}</span><span class="time-label">Detik</span></div>
-            `;
-        }, 1000);
-    }
-    createCountdown('countdown-akad', '2026-04-16T09:00:00');
-    createCountdown('countdown-resepsi', '2026-04-18T13:00:00');
-
+    // === J. MUSIC CONTROL TOGGLE ===
     window.toggleMusic = function() {
-        if (!music) return;
+        if (!music || !musicBtn) return;
         if (music.paused) {
             music.play();
             musicBtn.classList.replace('paused-state', 'play-state');
