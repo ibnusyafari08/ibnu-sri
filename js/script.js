@@ -30,17 +30,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // === B. LOCK SCROLL AWAL ===
     body.style.overflow = 'hidden';
 
-    // === C. NAMA TAMU ===
-    const urlParams = new URLSearchParams(window.location.search);
-    const namaTamu = urlParams.get('to') || urlParams.get('u');
+    // === C. NAMA TAMU + PARTNER (DISPLAY & RSVP DIPISAH) ===
+const urlParams = new URLSearchParams(window.location.search);
 
-    if (namaTamu) {
-        const decodedNama = decodeURIComponent(namaTamu);
-        const guestElement = document.getElementById('guest-name');
+const namaTamu = urlParams.get('to') || urlParams.get('u');
+const partner = urlParams.get('p');
 
-        if (guestElement) guestElement.innerText = decodedNama;
-        if (inputNama) inputNama.value = decodedNama;
+if (namaTamu) {
+    const decodedNama = decodeURIComponent(namaTamu);
+    const decodedPartner = partner ? decodeURIComponent(partner) : '';
+
+    // 🔥 untuk tampilan undangan
+    let finalNama = decodedNama;
+
+    if (decodedPartner) {
+        finalNama = `${decodedNama} & ${decodedPartner}`;
     }
+
+    // 🔥 tampil ke UI (boleh pakai innerText / innerHTML)
+    const guestElement = document.getElementById('guest-name');
+    if (guestElement) guestElement.innerText = finalNama;
+
+    // 🔥 PENTING: RSVP hanya nama utama (tanpa partner)
+    if (inputNama) inputNama.value = decodedNama;
+}
 
     // === D. FUNCTION MUSIC (SUPER FIX MOBILE) ===
     function playMusic() {
@@ -173,98 +186,167 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // === I. RSVP ===
-    function loadWishes() {
-        if (!wishesContainer) return;
+function loadWishes() {
+    if (!wishesContainer) return;
 
-        fetch(`${SCRIPT_URL}?action=read`)
-            .then(res => res.json())
-            .then(data => {
-                allWishes = [...data].reverse();
-                displayWishes(currentPage);
-            })
-            .catch(() => {
-                wishesContainer.innerHTML = '<div class="text-center text-white-50 p-4">Belum ada ucapan.</div>';
-            });
+    fetch(`${SCRIPT_URL}?action=read`)
+        .then(res => res.json())
+        .then(data => {
+            // 🔥 simpan data asli + index asli
+            allWishes = data.map((item, i) => ({
+                ...item,
+                originalIndex: i
+            })).reverse();
+
+            displayWishes(currentPage);
+        })
+        .catch(() => {
+            wishesContainer.innerHTML = '<div class="text-center text-white-50 p-4">Belum ada ucapan.</div>';
+        });
+}
+
+function displayWishes(page) {
+    wishesContainer.innerHTML = '';
+
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedItems = allWishes.slice(startIndex, endIndex);
+
+    if (paginatedItems.length === 0) {
+        wishesContainer.innerHTML = '<div class="text-center text-white-50 p-4">Belum ada ucapan.</div>';
+        return;
     }
 
-    function displayWishes(page) {
-        wishesContainer.innerHTML = '';
+    paginatedItems.forEach((item) => {
 
-        const startIndex = (page - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const paginatedItems = allWishes.slice(startIndex, endIndex);
-
-        if (paginatedItems.length === 0) {
-            wishesContainer.innerHTML = '<div class="text-center text-white-50 p-4">Belum ada ucapan.</div>';
-            return;
-        }
-
-        paginatedItems.forEach((item) => {
-            wishesContainer.innerHTML += `
-                <div class="wish-item fade-up show">
-                    <div class="d-flex justify-content-between">
-                        <div class="wish-name">${item.nama}</div>
-                        <span class="badge-status">${item.konfirmasi} (${item.jumlah})</span>
+        // 🔥 BALASAN (STYLE BARU LEBIH JELAS)
+        let balasanHTML = '';
+        if (item.balasan && item.balasan !== "") {
+            balasanHTML = `
+                <div class="reply-wrapper">
+                    <div class="reply-line"></div>
+                    <div class="reply-box">
+                        <div class="reply-header">
+                            <span class="reply-admin">${item.nama_admin}</span>
+                            <span class="reply-date">${item.tgl_balas}</span>
+                        </div>
+                        <div class="reply-text">${item.balasan}</div>
                     </div>
-                    <div class="wish-date">${item.timestamp}</div>
-                    <div class="wish-text">${item.ucapan}</div>
                 </div>
             `;
-        });
-
-        renderPagination();
-    }
-
-    function renderPagination() {
-        const totalPages = Math.ceil(allWishes.length / itemsPerPage);
-        if (totalPages <= 1) return;
-
-        let html = `<div class="d-flex justify-content-center gap-2 mt-4">`;
-        for (let i = 1; i <= totalPages; i++) {
-            html += `<button onclick="changePage(${i})" class="btn-page ${i === currentPage ? 'active' : ''}">${i}</button>`;
         }
-        html += `</div>`;
 
-        wishesContainer.innerHTML += html;
+        wishesContainer.innerHTML += `
+            <div class="wish-card fade-up show">
+
+                <div class="wish-header d-flex justify-content-between">
+                    <div class="wish-name">${item.nama}</div>
+                    <span class="badge-status">${item.konfirmasi} (${item.jumlah})</span>
+                </div>
+
+                <div class="wish-date">${item.timestamp}</div>
+
+                <div class="wish-body">
+                    ${item.ucapan}
+                </div>
+
+                ${balasanHTML}
+
+                <div class="text-end mt-2">
+                    <!-- 🔥 PAKAI ORIGINAL INDEX (INI KUNCI FIX) -->
+                    <button class="btn-reply-link" onclick="openReply(${item.originalIndex})">
+                        Balas
+                    </button>
+                </div>
+
+            </div>
+        `;
+    });
+
+    renderPagination();
+}
+
+function renderPagination() {
+    const totalPages = Math.ceil(allWishes.length / itemsPerPage);
+    if (totalPages <= 1) return;
+
+    let html = `<div class="d-flex justify-content-center gap-2 mt-4">`;
+    for (let i = 1; i <= totalPages; i++) {
+        html += `<button onclick="changePage(${i})" class="btn-page ${i === currentPage ? 'active' : ''}">${i}</button>`;
     }
+    html += `</div>`;
 
-    window.changePage = function(page) {
-        currentPage = page;
-        displayWishes(page);
-        wishesContainer.scrollIntoView({ behavior: 'smooth' });
-    };
+    wishesContainer.innerHTML += html;
+}
 
-    loadWishes();
+window.changePage = function(page) {
+    currentPage = page;
+    displayWishes(page);
+    wishesContainer.scrollIntoView({ behavior: 'smooth' });
+};
 
-    if (rsvpForm) {
-        rsvpForm.addEventListener('submit', e => {
-            e.preventDefault();
+// === OPEN MODAL BALAS ===
+window.openReply = function(index) {
+    document.getElementById('replyRowIndex').value = index;
 
-            const btn = document.getElementById('btnKirimRsvp');
-            const btnTextRsvp = document.getElementById('btnTextRsvp');
+    const modal = new bootstrap.Modal(document.getElementById('modalBalas'));
+    modal.show();
+};
 
-            btn.disabled = true;
-            btnTextRsvp.innerText = "Mengirim...";
+// === SUBMIT BALASAN ===
+const replyForm = document.getElementById('replyForm');
 
-            const formData = new FormData(rsvpForm);
-            formData.append('action', 'insert');
+if (replyForm) {
+    replyForm.addEventListener('submit', function(e){
+        e.preventDefault();
 
-            fetch(SCRIPT_URL, { method: 'POST', body: formData })
-                .then(() => {
-                    rsvpForm.reset();
-                    if (namaTamu) inputNama.value = decodeURIComponent(namaTamu);
-                    btn.disabled = false;
-                    btnTextRsvp.innerText = "Kirim Ucapan";
-                    currentPage = 1;
-                    loadWishes();
-                })
-                .catch(() => {
-                    alert("Gagal kirim");
-                    btn.disabled = false;
-                    btnTextRsvp.innerText = "Kirim Ucapan";
-                });
-        });
-    }
+        const formData = new FormData(replyForm);
+        formData.append('action', 'reply');
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: formData
+        })
+        .then(() => {
+            bootstrap.Modal.getInstance(document.getElementById('modalBalas')).hide();
+            loadWishes();
+        })
+        .catch(() => alert("Gagal kirim balasan"));
+    });
+}
+
+loadWishes();
+
+// === FORM RSVP (TIDAK DIUBAH) ===
+if (rsvpForm) {
+    rsvpForm.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const btn = document.getElementById('btnKirimRsvp');
+        const btnTextRsvp = document.getElementById('btnTextRsvp');
+
+        btn.disabled = true;
+        btnTextRsvp.innerText = "Mengirim...";
+
+        const formData = new FormData(rsvpForm);
+        formData.append('action', 'insert');
+
+        fetch(SCRIPT_URL, { method: 'POST', body: formData })
+            .then(() => {
+                rsvpForm.reset();
+                if (namaTamu) inputNama.value = decodeURIComponent(namaTamu);
+                btn.disabled = false;
+                btnTextRsvp.innerText = "Kirim Ucapan";
+                currentPage = 1;
+                loadWishes();
+            })
+            .catch(() => {
+                alert("Gagal kirim");
+                btn.disabled = false;
+                btnTextRsvp.innerText = "Kirim Ucapan";
+            });
+    });
+}
 
     // === LIGHTBOX ===
     window.showLightbox = function(el) {

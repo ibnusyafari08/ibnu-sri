@@ -1377,6 +1377,53 @@ body.undangan-terbuka {
     border-color: #d4af37;
 }
 
+/* UCAPAN */
+.wish-card {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+.wish-body {
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+/* BALASAN */
+.reply-wrapper {
+    display: flex;
+    margin-top: 15px;
+}
+
+.reply-line {
+    width: 3px;
+    background: #d4af37;
+    margin-right: 10px;
+    border-radius: 2px;
+}
+
+.reply-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 12px;
+    width: 100%;
+}
+
+.reply-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #d4af37;
+    margin-bottom: 5px;
+}
+
+.reply-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .wish-item {
