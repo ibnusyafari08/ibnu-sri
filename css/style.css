@@ -784,83 +784,135 @@ body.undangan-terbuka {
     }
 }
 
-/* ========================================= */
-/* STYLE COUNTDOWN (KOTAK / CARD)            */
-/* ========================================= */
+/* ===================================================== */
+/* ⏳ COUNTDOWN LUXURY GOLD (FINAL CLEAN VERSION) */
+/* ===================================================== */
 
+/* ============================= */
+/* COUNTDOWN PREMIUM FINAL */
+/* ============================= */
+
+.countdown-wrapper {
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Judul */
+.countdown-title {
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 4px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #d4af37 !important;
+    margin-bottom: 25px;
+    opacity: 0.9;
+}
+
+/* Container utama (WAJIB SESUAI JS) */
 .countdown-simple {
     display: flex;
     justify-content: center;
-    gap: 15px; /* Jarak antar kotak */
-    font-family: 'Lato', sans-serif;
-    margin-top: 2rem;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap; /* 🔥 biar sejajar */
 }
 
-/* KOTAK WAKTU (CARD STYLE) */
+/* Box waktu (pengganti countdown-item) */
 .time-box {
+    position: relative;
+    width: 65px;
+    height: 75px;
+
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
+
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    
-    /* Desain Kotak */
-    background: rgba(0, 0, 0, 0.6); /* Latar hitam transparan */
-    border: 1px solid rgba(191, 149, 63, 0.5); /* Garis tepi emas */
-    border-radius: 10px; /* Sudut melengkung */
-    padding: 10px 5px;
-    
-    /* Ukuran Kotak */
-    min-width: 75px; /* Lebar minimal agar seragam */
-    height: 80px;   /* Tinggi tetap */
-    
-    /* Efek Mewah */
-    backdrop-filter: blur(5px); /* Efek blur di belakang kotak */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Bayangan */
-    transition: transform 0.3s ease;
+    align-items: center;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    transition: all 0.3s ease;
 }
 
-/* Efek saat mouse diarahkan ke kotak waktu */
+/* Hover elegan */
 .time-box:hover {
-    transform: translateY(-5px);
-    border-color: #bf953f; /* Warna emas lebih terang saat hover */
-    background: rgba(191, 149, 63, 0.1);
+    transform: translateY(-4px);
+    border-color: #d4af37;
+    box-shadow: 0 10px 25px rgba(212,175,55,0.25);
 }
 
+/* Angka */
 .time-val {
-    font-size: 1.8rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3rem;
     font-weight: 700;
-    color: #fff;
+    color: #ffffff;
     line-height: 1;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
 }
 
+/* Label */
 .time-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    color: #bf953f; /* Warna Emas */
-    margin-top: 5px;
+    margin-top: 4px;
+    font-size: 0.55rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #d4af37;
     font-weight: 600;
 }
 
-/* --- RESPONSIVE UNTUK HP (PENTING) --- */
+/* Animasi perubahan angka */
+.time-val.animate {
+    animation: countdownFlip 0.5s ease;
+}
+
+@keyframes countdownFlip {
+    0% {
+        transform: rotateX(90deg);
+        opacity: 0;
+    }
+    100% {
+        transform: rotateX(0);
+        opacity: 1;
+    }
+}
+
+/* Spacing di dalam card acara */
+.event-card .countdown-simple {
+    margin-top: 15px;
+}
+
+/* ============================= */
+/* RESPONSIVE MOBILE */
+/* ============================= */
+
 @media (max-width: 768px) {
+
+    .countdown-wrapper {
+        margin-top: 25px;
+    }
+
     .countdown-simple {
-        gap: 8px; /* Rapatkan jarak antar kotak di HP */
+        gap: 8px;
     }
 
     .time-box {
-        min-width: 60px; /* Perkecil lebar kotak */
-        height: 70px;    /* Perkecil tinggi kotak */
-        padding: 8px 2px;
+        width: 55px;
+        height: 65px;
+        border-radius: 10px;
     }
 
     .time-val {
-        font-size: 1.3rem; /* Perkecil angka */
+        font-size: 1.1rem;
     }
 
     .time-label {
-        font-size: 0.6rem; /* Perkecil tulisan Hari/Jam */
+        font-size: 0.45rem;
+        letter-spacing: 0.5px;
     }
 }
 
@@ -1513,7 +1565,6 @@ body.undangan-terbuka {
     font-weight: 700;
     letter-spacing: 2px;
     margin-bottom: 10px;
-}
     
     /* 2. Teknik Gold Gradient Premium */
     background: linear-gradient(

@@ -291,32 +291,52 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    // === COUNTDOWN ===
-    function createCountdown(id, date) {
-        const el = document.getElementById(id);
-        if (!el) return;
+// === COUNTDOWN (FIX BOX STYLE TANPA MERUSAK LOGIKA LAIN) ===
+function createCountdown(id, date) {
+    const el = document.getElementById(id);
+    if (!el) return;
 
-        const target = new Date(date).getTime();
+    const target = new Date(date).getTime();
 
-        setInterval(() => {
-            const now = new Date().getTime();
-            const dist = target - now;
+    const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const dist = target - now;
 
-            if (dist < 0) {
-                el.innerHTML = "Acara Selesai";
-                return;
-            }
+        if (dist < 0) {
+            clearInterval(interval);
+            el.innerHTML = `<div class="text-center">Acara Selesai</div>`;
+            return;
+        }
 
-            const d = Math.floor(dist / (1000*60*60*24));
-            const h = Math.floor((dist%(1000*60*60*24))/(1000*60*60));
-            const m = Math.floor((dist%(1000*60*60))/(1000*60));
-            const s = Math.floor((dist%(1000*60))/1000);
+        const d = Math.floor(dist / (1000*60*60*24));
+        const h = Math.floor((dist%(1000*60*60*24))/(1000*60*60));
+        const m = Math.floor((dist%(1000*60*60))/(1000*60));
+        const s = Math.floor((dist%(1000*60))/1000);
 
-            el.innerHTML = `${d}H ${h}J ${m}M ${s}D`;
-        }, 1000);
-    }
+        el.innerHTML = `
+            <div class="countdown-simple">
+                <div class="time-box">
+                    <div class="time-val">${d}</div>
+                    <div class="time-label">Hari</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-val">${h}</div>
+                    <div class="time-label">Jam</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-val">${m}</div>
+                    <div class="time-label">Menit</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-val">${s}</div>
+                    <div class="time-label">Detik</div>
+                </div>
+            </div>
+        `;
+    }, 1000);
+}
 
-    createCountdown('countdown-akad', '2026-04-16T09:00:00');
-    createCountdown('countdown-resepsi', '2026-04-18T13:00:00');
-
+// 🔥 WAJIB ADA (INI YANG KEMARIN HILANG)
+createCountdown('countdown-akad', '2026-04-16T09:00:00');
+createCountdown('countdown-resepsi', '2026-04-18T13:00:00');
 });
